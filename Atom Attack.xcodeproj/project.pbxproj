@@ -16,10 +16,10 @@
 		862F0C6B1C0A298F001E6DA7 /* Click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5C1C0A298F001E6DA7 /* Click.mp3 */; };
 		862F0C6C1C0A298F001E6DA7 /* Contact.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5D1C0A298F001E6DA7 /* Contact.mp3 */; };
 		862F0C6D1C0A298F001E6DA7 /* Explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */; };
-		862F0C6F1C0A2A01001E6DA7 /* SKTexture+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 862F0C6E1C0A2A01001E6DA7 /* SKTexture+Gradient.swift */; };
-		8638877C1FF7A5B50069FB8E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638877B1FF7A5B50069FB8E /* CGFloat+Extensions.swift */; };
 		8638877E1FF7A62D0069FB8E /* SKTAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638877D1FF7A62D0069FB8E /* SKTAudio.swift */; };
-		863887801FF7A6AD0069FB8E /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638877F1FF7A6AD0069FB8E /* Int+Extensions.swift */; };
+		863887861FF7C7890069FB8E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887831FF7C7890069FB8E /* CGFloat+Extensions.swift */; };
+		863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887841FF7C7890069FB8E /* Int+Extensions.swift */; };
+		863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,10 +34,10 @@
 		862F0C5C1C0A298F001E6DA7 /* Click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Click.mp3; sourceTree = "<group>"; };
 		862F0C5D1C0A298F001E6DA7 /* Contact.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Contact.mp3; sourceTree = "<group>"; };
 		862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Explosion.mp3; sourceTree = "<group>"; };
-		862F0C6E1C0A2A01001E6DA7 /* SKTexture+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKTexture+Gradient.swift"; sourceTree = "<group>"; };
-		8638877B1FF7A5B50069FB8E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
 		8638877D1FF7A62D0069FB8E /* SKTAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTAudio.swift; sourceTree = "<group>"; };
-		8638877F1FF7A6AD0069FB8E /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		863887831FF7C7890069FB8E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
+		863887841FF7C7890069FB8E /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKTexture+Gradient.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,15 +72,13 @@
 			children = (
 				862F0C381C0A28F2001E6DA7 /* AppDelegate.swift */,
 				862F0C431C0A28F2001E6DA7 /* Assets.xcassets */,
-				8638877B1FF7A5B50069FB8E /* CGFloat+Extensions.swift */,
+				863887821FF7C7890069FB8E /* Extensions */,
 				862F0C3C1C0A28F2001E6DA7 /* GameScene.swift */,
 				862F0C3E1C0A28F2001E6DA7 /* GameViewController.swift */,
 				862F0C481C0A28F2001E6DA7 /* Info.plist */,
-				8638877F1FF7A6AD0069FB8E /* Int+Extensions.swift */,
 				862F0C451C0A28F2001E6DA7 /* LaunchScreen.storyboard */,
 				862F0C401C0A28F2001E6DA7 /* Main.storyboard */,
 				8638877D1FF7A62D0069FB8E /* SKTAudio.swift */,
-				862F0C6E1C0A2A01001E6DA7 /* SKTexture+Gradient.swift */,
 				862F0C5B1C0A298F001E6DA7 /* Sounds */,
 			);
 			path = "Atom Attack";
@@ -96,6 +94,16 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		863887821FF7C7890069FB8E /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				863887831FF7C7890069FB8E /* CGFloat+Extensions.swift */,
+				863887841FF7C7890069FB8E /* Int+Extensions.swift */,
+				863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -104,6 +112,7 @@
 			buildConfigurationList = 862F0C4B1C0A28F2001E6DA7 /* Build configuration list for PBXNativeTarget "Atom Attack" */;
 			buildPhases = (
 				862F0C311C0A28F2001E6DA7 /* Sources */,
+				863887811FF7A8130069FB8E /* SwiftLint */,
 				862F0C321C0A28F2001E6DA7 /* Frameworks */,
 				862F0C331C0A28F2001E6DA7 /* Resources */,
 			);
@@ -166,17 +175,34 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		863887811FF7A8130069FB8E /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		862F0C311C0A28F2001E6DA7 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				862F0C3D1C0A28F2001E6DA7 /* GameScene.swift in Sources */,
-				8638877C1FF7A5B50069FB8E /* CGFloat+Extensions.swift in Sources */,
+				863887861FF7C7890069FB8E /* CGFloat+Extensions.swift in Sources */,
 				862F0C3F1C0A28F2001E6DA7 /* GameViewController.swift in Sources */,
+				863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */,
+				863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */,
 				8638877E1FF7A62D0069FB8E /* SKTAudio.swift in Sources */,
-				863887801FF7A6AD0069FB8E /* Int+Extensions.swift in Sources */,
-				862F0C6F1C0A2A01001E6DA7 /* SKTexture+Gradient.swift in Sources */,
 				862F0C391C0A28F2001E6DA7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
