@@ -150,8 +150,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func resetScene() {
-        // SKTAudio.sharedInstance().playBackgroundMusic("Music.mp3")
-
         gameOver = false
         canReset = false
 
@@ -273,8 +271,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     if type1 != type2 {
                         gameOver = true
 
-                        SKTAudio.sharedInstance().pauseBackgroundMusic()
-                        SKTAudio.sharedInstance().playSoundEffect("Explosion.mp3")
+                        SKTAudio.shared().playSoundEffect("Explosion.mp3")
                         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
 
                         rays.removeAllChildren()
@@ -297,7 +294,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                                                                SKAction.run({() in self.removeAllActions(); self.canReset = true })])
                         self.run(flashSequence, withKey: "flash")
                     } else {
-                        SKTAudio.sharedInstance().playSoundEffect("Contact.mp3")
+                        SKTAudio.shared().playSoundEffect("Contact.mp3")
 
                         score += 1
                         labelScore?.text = "\(score)"
