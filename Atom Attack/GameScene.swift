@@ -12,143 +12,135 @@ import SpriteKit
 
 internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
-    private var coreHalo: SKShapeNode?
-    private var core: SKShapeNode?
+    // ui
+    private lazy var coreHalo: SKShapeNode = {
+        let node = SKShapeNode(circleOfRadius: 25)
+        node.fillColor = SKColor.lightGray
+        node.strokeColor = SKColor.lightGray
+        node.lineWidth = 1.0
+        node.position = CGPoint(x: self.frame.midX, y: self.frame.midY * 0.4)
+        node.zPosition = 1
+
+        return node
+    }()
+    private lazy var core: SKShapeNode = {
+        SKShapeNode(circleOfRadius: 25)
+    }()
     private var ray: SKShapeNode?
     private var particle: SKShapeNode?
-    private var score: Int = 0
-    private var labelScore: SKLabelNode?
-    private var labelLevel: SKLabelNode?
-    private var level: Int = 0
-    private var haloScale: CGFloat = 1.0
-    private var backgroundFlashNode: SKShapeNode?
-    private var gameOver: Bool = false
-    private var canReset: Bool = false
+    private lazy var labelScore: SKLabelNode = {
+        let label = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
+        label.fontSize = 48
+        label.position = CGPoint(x: frame.width * 0.55, y: frame.height * 0.9)
+        label.zPosition = 1
+        label.alpha = 0.8
+        label.horizontalAlignmentMode = .right
+
+        return label
+    }()
+    private lazy var labelLevel: SKLabelNode = {
+        let label = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
+        label.fontSize = 24
+        label.position = CGPoint(x: frame.width * 0.551, y: frame.height * 0.925)
+        label.zPosition = 1
+        label.alpha = 0.8
+        label.horizontalAlignmentMode = .left
+
+        return label
+    }()
     private var rays: SKNode = SKNode()
 
+    private lazy var gradientBackgroundTexture: SKTexture? = {
+        SKTexture.textureWithVerticalGradient(
+            size: size,
+            topColor: CIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1),
+            bottomColor: CIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1))
+    }()
+    private lazy var gradientBackground: SKSpriteNode = {
+        let node = SKSpriteNode(texture: gradientBackgroundTexture)
+        node.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        node.zPosition = -1
+
+        return node
+    }()
+    private lazy var backgroundFlash: SKShapeNode = {
+        let node = SKShapeNode(rect: frame)
+        node.fillColor = backgroundColor
+        node.alpha = 0.0
+        node.zPosition = 0
+
+        return node
+    }()
+
+    private var haloScale: CGFloat = 1.0
     private var actionCoreToggleColor: SKAction?
 
     private let coreCategory: UInt32 = 1 << 0
     private let rayCategory: UInt32 = 1 << 1
 
+    // game
+    private var score: Int = 0
+    private var level: Int = 0
+    private var gameOver: Bool = false
+    private var canReset: Bool = false
+
     // MARK: - Private Methods
 
-    private func setupGradient() {
-        let topColor = CIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1)
-        let bottomColor = CIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)
-        let backgroundTexture = SKTexture.textureWithVerticalGradient(size: size,
-                                                                      topColor: topColor,
-                                                                      bottomColor: bottomColor)
-        let backgroundGradient = SKSpriteNode(texture: backgroundTexture)
-        backgroundGradient.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        backgroundGradient.zPosition = -1
-        addChild(backgroundGradient)
-    }
-
-    private func setupBackgroundFlash() {
-        backgroundFlashNode = SKShapeNode(rect: frame)
-        if let backgroundFlashNode = backgroundFlashNode {
-            backgroundFlashNode.fillColor = backgroundColor
-            backgroundFlashNode.alpha = 0.0
-            backgroundFlashNode.zPosition = 0
-            addChild(backgroundFlashNode)
-        }
-    }
-
-    private func setupLabelScore() {
-        labelScore = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
-        if let labelScore = labelScore {
-            labelScore.fontSize = 48
-            labelScore.position = CGPoint(x: frame.width * 0.55, y: frame.height * 0.9)
-            labelScore.zPosition = 1
-            labelScore.alpha = 0.8
-            labelScore.horizontalAlignmentMode = .right
-            addChild(labelScore)
-        }
-    }
-
-    private func setupLabelLevel() {
-        labelLevel = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
-        if let labelLevel = labelLevel {
-            labelLevel.fontSize = 24
-            labelLevel.position = CGPoint(x: frame.width * 0.551, y: frame.height * 0.925)
-            labelLevel.zPosition = 1
-            labelLevel.alpha = 0.8
-            labelLevel.horizontalAlignmentMode = .left
-            addChild(labelLevel)
-        }
-    }
-
-    private func setupCoreHalo() {
-        coreHalo = SKShapeNode(circleOfRadius: 25)
-        if let corehalo = coreHalo {
-            corehalo.fillColor = SKColor.lightGray
-            corehalo.strokeColor = SKColor.lightGray
-            corehalo.lineWidth = 1.0
-            corehalo.position = CGPoint(x: frame.midX, y: frame.midY * 0.4)
-            corehalo.zPosition = 1
-        }
-    }
-
     private func setupCore() {
-        core = SKShapeNode(circleOfRadius: 25)
-        if let core = core {
-            core.fillColor = SKColor(white: 1.0, alpha: 1.0)
-            core.strokeColor = SKColor(white: 1.0, alpha: 1.0)
-            core.lineWidth = 0.1
-            core.position = CGPoint(x: frame.midX, y: frame.midY * 0.4)
-            core.zPosition = 3
-            core.userData = ["type": 0]
+        core.fillColor = SKColor(white: 1.0, alpha: 1.0)
+        core.strokeColor = SKColor(white: 1.0, alpha: 1.0)
+        core.lineWidth = 0.1
+        core.position = CGPoint(x: frame.midX, y: frame.midY * 0.4)
+        core.zPosition = 3
+        core.userData = ["type": 0]
 
-            core.physicsBody = SKPhysicsBody(circleOfRadius: 25)
-            if let corePhysicsBody = core.physicsBody {
-                corePhysicsBody.isDynamic = false
-                corePhysicsBody.categoryBitMask = coreCategory
-                corePhysicsBody.contactTestBitMask = rayCategory
-            }
-
-            let particlePositions = [
-                CGPoint(x: 0.0, y: 20.0),
-                CGPoint(x: 17.3, y: 10.0),
-                CGPoint(x: 17.3, y: -10.0),
-                CGPoint(x: 0.0, y: 0.0),
-                CGPoint(x: -17.3, y: -10.0),
-                CGPoint(x: -17.3, y: 10.0),
-                CGPoint(x: 0.0, y: -20.0)
-            ]
-
-            for particlePosition in particlePositions {
-                let particle = SKShapeNode(circleOfRadius: 10)
-                particle.fillColor = core.fillColor
-                particle.strokeColor = backgroundColor
-                particle.lineWidth = 0.1
-                particle.position = particlePosition
-                core.addChild(particle)
-            }
-
-            addChild(core)
+        core.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+        if let corePhysicsBody = core.physicsBody {
+            corePhysicsBody.isDynamic = false
+            corePhysicsBody.categoryBitMask = coreCategory
+            corePhysicsBody.contactTestBitMask = rayCategory
         }
+
+        let particlePositions = [
+            CGPoint(x: 0.0, y: 20.0),
+            CGPoint(x: 17.3, y: 10.0),
+            CGPoint(x: 17.3, y: -10.0),
+            CGPoint(x: 0.0, y: 0.0),
+            CGPoint(x: -17.3, y: -10.0),
+            CGPoint(x: -17.3, y: 10.0),
+            CGPoint(x: 0.0, y: -20.0)
+        ]
+
+        for particlePosition in particlePositions {
+            let particle = SKShapeNode(circleOfRadius: 10)
+            particle.fillColor = core.fillColor
+            particle.strokeColor = backgroundColor
+            particle.lineWidth = 0.1
+            particle.position = particlePosition
+            core.addChild(particle)
+        }
+
+        addChild(core)
     }
 
     private func setupToggle() {
-        actionCoreToggleColor = SKAction.run {() -> Void in
-            if let core = self.core {
-                if let type = core.userData?["type"] as? Int {
-                    if type > 0 {
-                        core.fillColor = SKColor(white: 1.0, alpha: 1.0)
-                        core.strokeColor = SKColor(white: 1.0, alpha: 1.0)
-                        for child in core.children {
-                            (child as? SKShapeNode)?.fillColor = SKColor(white: 1.0, alpha: 1.0)
-                        }
-                    } else {
-                        core.fillColor = SKColor(white: 0.0, alpha: 1.0)
-                        core.strokeColor = SKColor(white: 0.0, alpha: 1.0)
-                        for child in core.children {
-                            (child as? SKShapeNode)?.fillColor = SKColor(white: 0.0, alpha: 1.0)
-                        }
+        actionCoreToggleColor = SKAction.run {
+            let core = self.core
+            if let type = core.userData?["type"] as? Int {
+                if type > 0 {
+                    core.fillColor = SKColor(white: 1.0, alpha: 1.0)
+                    core.strokeColor = SKColor(white: 1.0, alpha: 1.0)
+                    for child in core.children {
+                        (child as? SKShapeNode)?.fillColor = SKColor(white: 1.0, alpha: 1.0)
                     }
-                    core.userData?["type"] = 1 - type
+                } else {
+                    core.fillColor = SKColor(white: 0.0, alpha: 1.0)
+                    core.strokeColor = SKColor(white: 0.0, alpha: 1.0)
+                    for child in core.children {
+                        (child as? SKShapeNode)?.fillColor = SKColor(white: 0.0, alpha: 1.0)
+                    }
                 }
+                core.userData?["type"] = 1 - type
             }
         }
     }
@@ -160,19 +152,17 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         score = 0
         level = 0
 
-        labelScore?.text = "\(score)"
-        labelLevel?.text = "\(level)"
+        labelScore.text = "\(score)"
+        labelLevel.text = "\(level)"
 
         haloScale = 1.0
-        if let corehalo = coreHalo {
-            corehalo.xScale = haloScale
-            corehalo.yScale = haloScale
-            corehalo.alpha = 1.0
-            addChild(corehalo)
-        }
+        coreHalo.xScale = haloScale
+        coreHalo.yScale = haloScale
+        coreHalo.alpha = 1.0
+        addChild(coreHalo)
 
-        core?.alpha = 1.0
-        core?.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi, duration: 2.5)), withKey: "coreRotation")
+        core.alpha = 1.0
+        core.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi, duration: 2.5)), withKey: "coreRotation")
 
         let spawnRaysAction = SKAction.run { self.spawnRays() }
         let waitAction = SKAction.wait(forDuration: 2.0)
@@ -247,21 +237,21 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         rays.removeAllChildren()
 
-        core?.removeAction(forKey: "coreRotation")
+        core.removeAction(forKey: "coreRotation")
 
-        let oldColor = backgroundFlashNode?.fillColor ?? .clear
+        let oldColor = backgroundFlash.fillColor
 
         let fadeAction = SKAction.fadeAlpha(to: 0.0, duration: 0.2)
         let scaleAction = SKAction.scale(to: 0, duration: 0.2)
-        coreHalo?.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
+        coreHalo.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
 
         removeAction(forKey: "flash")
         let wait = SKAction.wait(forDuration: 0.05)
-        let fadeBackgroundIn = SKAction.run { self.backgroundFlashNode?.alpha = 1.0 }
-        let fadeBackgroundOut = SKAction.run { self.backgroundFlashNode?.alpha = 0.0 }
-        let turnBackgroundRed = SKAction.run { self.backgroundFlashNode?.fillColor = UIColor.red }
-        let turnBackgroundWhite = SKAction.run { self.backgroundFlashNode?.fillColor = UIColor.white }
-        let turnBackgroundOriginal = SKAction.run { self.backgroundFlashNode?.fillColor = oldColor }
+        let fadeBackgroundIn = SKAction.run { self.backgroundFlash.alpha = 1.0 }
+        let fadeBackgroundOut = SKAction.run { self.backgroundFlash.alpha = 0.0 }
+        let turnBackgroundRed = SKAction.run { self.backgroundFlash.fillColor = UIColor.red }
+        let turnBackgroundWhite = SKAction.run { self.backgroundFlash.fillColor = UIColor.white }
+        let turnBackgroundOriginal = SKAction.run { self.backgroundFlash.fillColor = oldColor }
         let actions = [turnBackgroundRed, wait, turnBackgroundWhite, wait, turnBackgroundOriginal]
         let sequenceOfActions = SKAction.sequence(actions)
         let repeatAction = SKAction.repeat(sequenceOfActions, count: 4)
@@ -274,11 +264,11 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         SKTAudio.shared.playSoundEffect("Contact.mp3")
 
         score += 1
-        labelScore?.text = "\(score)"
+        labelScore.text = "\(score)"
 
         if score > 0 && score % 5 == 0 {
             level += 1
-            labelLevel?.text = "\(level)"
+            labelLevel.text = "\(level)"
 
             var timeToSpawn = 2.5
             switch level {
@@ -306,27 +296,25 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
             haloScale += 1.0
         }
 
-        coreHalo?.run(SKAction.scale(to: haloScale, duration: 0.2))
+        coreHalo.run(SKAction.scale(to: haloScale, duration: 0.2))
     }
 
     // MARK: - Lifecycle
 
     override func didMove(to view: SKView) {
-        /* Setup your scene here */
         backgroundColor = SKColor(white: 185.0 / 255.0, alpha: 1.0)
 
         addChild(rays)
-        setupGradient()
-        setupBackgroundFlash()
+        addChild(gradientBackground)
+        addChild(backgroundFlash)
+
+        addChild(labelScore)
+        addChild(labelLevel)
+        setupCore()
+        setupToggle()
 
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
-
-        setupLabelScore()
-        setupLabelLevel()
-        setupCoreHalo()
-        setupCore()
-        setupToggle()
 
         resetScene()
     }
@@ -334,7 +322,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !gameOver {
             if let action = actionCoreToggleColor {
-                core?.run(action)
+                core.run(action)
             }
         } else {
             if canReset {
@@ -342,6 +330,8 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
+
+    // MARK: - SKPhysicsContactDelegate
 
     func didBegin(_ contact: SKPhysicsContact) {
         var firstBody: SKPhysicsBody
@@ -358,9 +348,9 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         let parent = secondBody.node?.parent
 
         if firstBody.categoryBitMask & coreCategory == coreCategory {
-            if let type1 = core?.userData?["type"] as? Int {
+            if let type1 = core.userData?["type"] as? Int {
                 if let type2 = parent?.userData?["type"] as? Int {
-                    // disable collisions while shaking
+                    // no collisions while shaking
                     if let particlePhysicsBody = secondBody.node?.physicsBody {
                         particlePhysicsBody.isDynamic = false
                         particlePhysicsBody.categoryBitMask = 0
