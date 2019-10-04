@@ -11,6 +11,8 @@ import QuartzCore
 import SpriteKit
 
 internal class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    fileprivate lazy var thisFrame = { CGPoint(x: 250, y: 150) }
 
     // ui
     private lazy var coreHalo: SKShapeNode = {
@@ -31,17 +33,18 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     private lazy var labelScore: SKLabelNode = {
         let label = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
         label.fontSize = 48
-        label.position = CGPoint(x: frame.width * 0.55, y: frame.height * 0.9)
+        label.position = self.thisFrame()//CGPoint(x: self.frame.width * 0.55, y: frame.height * 0.9)
         label.zPosition = 1
         label.alpha = 0.8
         label.horizontalAlignmentMode = .right
+        
 
         return label
     }()
     private lazy var labelLevel: SKLabelNode = {
         let label = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
         label.fontSize = 24
-        label.position = CGPoint(x: frame.width * 0.551, y: frame.height * 0.925)
+        label.position = self.thisFrame()//CGPoint(x: frame.width * 0.551, y: frame.height * 0.925)
         label.zPosition = 1
         label.alpha = 0.8
         label.horizontalAlignmentMode = .left
@@ -50,22 +53,22 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     }()
     private var rays: SKNode = SKNode()
 
-    private lazy var gradientBackgroundTexture: SKTexture? = {
+    fileprivate lazy var gradientBackgroundTexture: SKTexture? = {
         SKTexture.textureWithVerticalGradient(
-            size: size,
+            size: CGSize(),
             topColor: CIColor(red: 0.8, green: 0.8, blue: 0.8, alpha: 1),
             bottomColor: CIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1))
     }()
     private lazy var gradientBackground: SKSpriteNode = {
-        let node = SKSpriteNode(texture: gradientBackgroundTexture)
-        node.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        let node = SKSpriteNode(texture: self.gradientBackgroundTexture)
+        node.position = CGPoint(x: 250, y: 500)
         node.zPosition = -1
 
         return node
     }()
     private lazy var backgroundFlash: SKShapeNode = {
-        let node = SKShapeNode(rect: frame)
-        node.fillColor = backgroundColor
+        let node = SKShapeNode(rect: CGRect() )
+        node.fillColor = self.backgroundColor
         node.alpha = 0.0
         node.zPosition = 0
 

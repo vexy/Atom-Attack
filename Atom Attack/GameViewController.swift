@@ -13,16 +13,7 @@ internal class GameViewController: UIViewController {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-
-        let scene = GameScene(size: CGSize(width: 2_048, height: 1_536))
-
-        let skView = view as? SKView
-        skView?.ignoresSiblingOrder = true
-
-        scene.size = skView?.bounds.size ?? .zero
-        scene.scaleMode = .aspectFill
-
-        skView?.presentScene(scene)
+        prepareScene()
     }
 
     override var shouldAutorotate: Bool {
@@ -39,5 +30,18 @@ internal class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    // Scene preparation
+    private func prepareScene() {
+        guard let skView = view as? SKView else { return }
+        skView.ignoresSiblingOrder = true
+        
+        //initialize the scene with entire display available
+        let scene = GameScene(size: skView.bounds.size)
+        scene.scaleMode = .aspectFill
+
+        //add scene to the view
+        skView.presentScene(scene)
     }
 }
