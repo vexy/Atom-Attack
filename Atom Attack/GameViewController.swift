@@ -34,14 +34,13 @@ internal class GameViewController: UIViewController {
     
     // Scene preparation
     private func prepareScene() {
-        guard let skView = view as? SKView else { return }
+        guard let skView = view as? SKView else { return } // or perhaps fatalError() ?
         skView.ignoresSiblingOrder = true
         
         //initialize the scene with entire display available
         let scene = GameScene(size: skView.bounds.size)
         scene.scaleMode = .aspectFill
 
-        //add scene to the view
         skView.presentScene(scene)
     }
 }
