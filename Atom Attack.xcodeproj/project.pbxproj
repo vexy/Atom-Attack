@@ -21,7 +21,8 @@
 		863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887841FF7C7890069FB8E /* Int+Extensions.swift */; };
 		863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */; };
 		C51C2CCC234A702000103BF9 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCB234A702000103BF9 /* Core.swift */; };
-		C51C2CCE234B81D100103BF9 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCD234B81D100103BF9 /* Protocols.swift */; };
+		C51C2CCE234B81D100103BF9 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCD234B81D100103BF9 /* Commons.swift */; };
+		C51C2CD0234B9F1F00103BF9 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCF234B9F1F00103BF9 /* Atom.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,7 +42,8 @@
 		863887841FF7C7890069FB8E /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKTexture+Gradient.swift"; sourceTree = "<group>"; };
 		C51C2CCB234A702000103BF9 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
-		C51C2CCD234B81D100103BF9 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		C51C2CCD234B81D100103BF9 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
+		C51C2CCF234B9F1F00103BF9 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 			children = (
 				862F0C381C0A28F2001E6DA7 /* AppDelegate.swift */,
 				862F0C431C0A28F2001E6DA7 /* Assets.xcassets */,
+				C51C2CCD234B81D100103BF9 /* Commons.swift */,
 				C51C2CCA234A6FDD00103BF9 /* Entities */,
 				863887821FF7C7890069FB8E /* Extensions */,
 				862F0C3C1C0A28F2001E6DA7 /* GameScene.swift */,
@@ -85,7 +88,6 @@
 				862F0C401C0A28F2001E6DA7 /* Main.storyboard */,
 				8638877D1FF7A62D0069FB8E /* SKTAudio.swift */,
 				862F0C5B1C0A298F001E6DA7 /* Sounds */,
-				C51C2CCD234B81D100103BF9 /* Protocols.swift */,
 			);
 			path = "Atom Attack";
 			sourceTree = "<group>";
@@ -114,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				C51C2CCB234A702000103BF9 /* Core.swift */,
+				C51C2CCF234B9F1F00103BF9 /* Atom.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -214,8 +217,9 @@
 			files = (
 				862F0C3D1C0A28F2001E6DA7 /* GameScene.swift in Sources */,
 				863887861FF7C7890069FB8E /* CGFloat+Extensions.swift in Sources */,
+				C51C2CD0234B9F1F00103BF9 /* Atom.swift in Sources */,
 				862F0C3F1C0A28F2001E6DA7 /* GameViewController.swift in Sources */,
-				C51C2CCE234B81D100103BF9 /* Protocols.swift in Sources */,
+				C51C2CCE234B81D100103BF9 /* Commons.swift in Sources */,
 				863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */,
 				863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */,
 				8638877E1FF7A62D0069FB8E /* SKTAudio.swift in Sources */,
@@ -357,7 +361,7 @@
 				CODE_SIGN_IDENTITY = "";
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -372,7 +376,7 @@
 				CODE_SIGN_IDENTITY = "";
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;

@@ -6,12 +6,13 @@
 //  Copyright © 2019 Vladislav Jevremovic. All rights reserved.
 //
 
-import Foundation
 import SpriteKit
 
-protocol GameObject {
-    func spawn() -> SKNode
-    func attack(object: SKNode)
-    
-    func receivedHit()
+// GLOBAL PHYSIC CATEGORISATION
+public let coreCategory: UInt32 = 1 << 0
+public let rayCategory: UInt32  = 1 << 1
+
+enum ColorTheme {
+    case white
+    case black
 }

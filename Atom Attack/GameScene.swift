@@ -11,12 +11,6 @@ import QuartzCore
 import SpriteKit
 
 internal class GameScene: SKScene, SKPhysicsContactDelegate {
-    
-//    private let backgroundColor = SKColor(white: 185.0 / 255.0, alpha: 1.0)
-    
-    private var ray: SKShapeNode?
-    private var particle: SKShapeNode?
-    
     private lazy var labelScore: SKLabelNode = {
         let label = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
         label.fontSize = 48
@@ -37,7 +31,10 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         return label
     }()
-    private var rays: SKNode = SKNode()
+    
+    // Game entities
+    private var attackingAtoms = [Atom()]
+    private var mainCore: Core = Core()
 
     // Gradients and flash action
     private lazy var gradientBackgroundTexture: SKTexture? = {
@@ -62,34 +59,13 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         return node
     }()
 
-    private var actionCoreToggleColor: SKAction?
-
     // game
     private var score: Int = 0
     private var level: Int = 0
     private var gameOver: Bool = false
     private var canReset: Bool = false
-    
-    // entities declaration (array of attacking atoms)
-    private var attackingAtoms = [Core()]
 
-    // MARK: - Private Methods
-    private func setupToggle() {
-        actionCoreToggleColor = SKAction.run { [unowned self] in
-//            guard let coreType = self.core.userData?["type"] as? Int else { return }
-            
-            /*
-            let whiteFactor = CGFloat(coreType > 0 ? 1 : 0)
-            self.core.fillColor = SKColor(white: whiteFactor, alpha: 1.0)
-            self.core.strokeColor = SKColor(white: whiteFactor, alpha: 1.0)
-            self.core.children.forEach{ ($0 as? SKShapeNode)?.fillColor = SKColor(white: whiteFactor, alpha: 1.0) }
-            */
-            
-            //toggle core type
-//            self.core.userData?["type"] = 1 - coreType
-        }
-    }
-
+    // MARK: - Private Method
     private func resetScene() {
         gameOver = false
         canReset = false
@@ -99,35 +75,10 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         labelScore.text = "\(score)"
         labelLevel.text = "LEVEL \(level)"
-        
-
-        let spawnRaysAction = SKAction.run { self.spawnRays() }
-        let waitAction = SKAction.wait(forDuration: 2.0)
-        let finalSequence = [spawnRaysAction, waitAction]
-        run(SKAction.repeatForever(SKAction.sequence(finalSequence)), withKey: "spawnRays")
     }
 
     private func spawnRays() {
         guard !gameOver else { return }
-        let alpha = CGFloat.random(min: -CGFloat.pi / 6, max: CGFloat.pi / 6)
-        
-        //randomize type
-        let typeValue = Int.random(2)
-        
-        //setup ray & particle
-        let newRay = createNewRay(ofType: typeValue, alpha: alpha)
-//        let newParticle = createNewParticle(ofType: typeValue)
-        
-        //update collections
-       // newRay.addChild(newParticle)
-        rays.addChild(newRay)
-            
-        //update class references
-        self.ray = newRay
-        //self.particle = newParticle
-            
-        ray!.run(SKAction.sequence([SKAction.moveBy(x: 2_000 * sin(alpha), y: -2_000 * cos(alpha), duration: 5),
-                                       SKAction.removeFromParent()]))
     }
 
     /// Creates new ray `SKShapeNode` object for the given type parameter
@@ -155,13 +106,8 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         SKTAudio.shared.playSoundEffect("Explosion.mp3")
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))  //UIHapticFeedback perhaps ?
 
-        rays.removeAllChildren()
-//        core.removeAction(forKey: "coreRotation")
-
         let fadeAction = SKAction.fadeAlpha(to: 0.0, duration: 0.2)
         let scaleAction = SKAction.scale(to: 0, duration: 0.2)
-        
-
         performFlashSequence()
     }
     
@@ -227,20 +173,23 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         backgroundColor = SKColor(white: 185.0 / 255.0, alpha: 1.0)
         
-        addChild(rays)
+        //setup background
         addChild(gradientBackground)
         addChild(backgroundFlash)
 
         addChild(labelScore)
         addChild(labelLevel)
-        //setupCore()
-        setupToggle()
+        
+        
+        //initialize and draw Core
+        mainCore = Core()
+        mainCore.addTo(scene: self)
+        mainCore.startSpinning()
 
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
 
         resetScene()
-        print("Did move event")
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -251,13 +200,28 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
             //    core.run(action)
             //}
         } else {
-            if canReset { resetScene() }
+            //toggle pause
+//            if canReset { resetScene() }
         }
+        
+        mainCore.toggleColorScheme()
+        
+//        self.isPaused = !self.isPaused
+//        print("Paused state: \(self.isPaused)")
+        
+        //spawn new particle
+        let newParticle = Atom()
+        
+        newParticle.positionIn(scene: self)
+        newParticle.attack(point: mainCore.currentPosition)
+        
+        //add us to the "bag"
+        attackingAtoms.append(newParticle)
     }
     
     // MARK: - SKSceneDelegate methods
     override func update(_ currentTime: TimeInterval) {
-        print("Update logic metod, scene pause state: \(self.isPaused)")
+//        print("Update logic metod, scene pause state: \(self.isPaused)")
         guard !gameOver else { return }
         
         //check the leveling scale
@@ -277,7 +241,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didSimulatePhysics() {
         //after a collisions have been done, check for core hit
 //        if core.isHit { gameOver = true }
-        print("Physics simulated")
+//        print("Physics simulated")
     }
     
     override func didFinishUpdate() {
@@ -289,53 +253,43 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
             //something
         }
         
-        print("Update finished, pausing immediatelly")
+//        print("Update finished...")
 //        self.isPaused = true
     }
     
 
     // MARK: - SKPhysicsContactDelegate
-
     func didBegin(_ contact: SKPhysicsContact) {
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
 
         // determine colided bodies
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
+            firstBody = contact.bodyA   //core
+            secondBody = contact.bodyB  //atom
         } else {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
         }
 
         let parent = secondBody.node?.parent
-        
         print("First body is: \(firstBody.node?.name)")
         print("Second body is: \(secondBody.node?.name)")
-
-        /*
-        if firstBody.categoryBitMask & coreCategory == coreCategory {
-            if let type1 = core.userData?["type"] as? Int {
-                if let type2 = parent?.userData?["type"] as? Int {
-                    
-                    // no collisions while shaking
-                    if let particlePhysicsBody = secondBody.node?.physicsBody {
-                        particlePhysicsBody.isDynamic = false
-                        particlePhysicsBody.categoryBitMask = 0
-                        particlePhysicsBody.contactTestBitMask = 0
-                    }
-                    parent?.removeAllActions()
-                    parent?.run(SKAction.sequence([SKAction.scale(to: 0, duration: 0.1), SKAction.removeFromParent()]))
-
-                    if type1 != type2 {
-                        doGameOver()
-                    } else {
-                        doScore()
-                    }
-                }
-            }
+        
+        //get bodies as SKShapeNodes
+        guard let body1AsShape = firstBody.node as? SKShapeNode else { return }
+        guard let body2AsShape = secondBody.node as? SKShapeNode else { return }
+        
+        //comapre their colors
+        if body1AsShape.fillColor == body2AsShape.fillColor {
+            print("COLORS ARE SAME, INCREASE POINTS !!")
+        } else {
+            print("COLORS ARE DIFFERENT, GAME OVER !")
+            //mainCore.explode()
+            mainCore.stopSpinning()
+            gameOver = true
         }
-        */
+
+        secondBody.node?.removeFromParent()
     }
 }
