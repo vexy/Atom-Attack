@@ -42,5 +42,11 @@ internal class GameViewController: UIViewController {
         scene.scaleMode = .aspectFill
 
         skView.presentScene(scene)
+        
+        //debugging and testing info
+        skView.showsFPS = true
+//        skView.shouldCullNonVisibleNodes = true // INTERESTING !??
+        skView.showsNodeCount = true
+        skView.showsPhysics = true
     }
 }

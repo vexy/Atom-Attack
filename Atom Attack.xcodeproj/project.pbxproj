@@ -21,6 +21,7 @@
 		863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887841FF7C7890069FB8E /* Int+Extensions.swift */; };
 		863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */; };
 		C51C2CCC234A702000103BF9 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCB234A702000103BF9 /* Core.swift */; };
+		C51C2CCE234B81D100103BF9 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCD234B81D100103BF9 /* Protocols.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		863887841FF7C7890069FB8E /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
 		863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKTexture+Gradient.swift"; sourceTree = "<group>"; };
 		C51C2CCB234A702000103BF9 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
+		C51C2CCD234B81D100103BF9 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				862F0C401C0A28F2001E6DA7 /* Main.storyboard */,
 				8638877D1FF7A62D0069FB8E /* SKTAudio.swift */,
 				862F0C5B1C0A298F001E6DA7 /* Sounds */,
+				C51C2CCD234B81D100103BF9 /* Protocols.swift */,
 			);
 			path = "Atom Attack";
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				862F0C3D1C0A28F2001E6DA7 /* GameScene.swift in Sources */,
 				863887861FF7C7890069FB8E /* CGFloat+Extensions.swift in Sources */,
 				862F0C3F1C0A28F2001E6DA7 /* GameViewController.swift in Sources */,
+				C51C2CCE234B81D100103BF9 /* Protocols.swift in Sources */,
 				863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */,
 				863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */,
 				8638877E1FF7A62D0069FB8E /* SKTAudio.swift in Sources */,

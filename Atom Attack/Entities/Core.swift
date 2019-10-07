@@ -19,6 +19,8 @@ struct Core {
     
     private var haloScale: CGFloat = 1.0
     
+    private let backgroundColor = SKColor(white: 185.0 / 255.0, alpha: 1.0)
+    
     private lazy var rotationAction: SKAction = {
         let coreRotation = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi, duration: 2.5))
         return coreRotation
@@ -77,12 +79,12 @@ struct Core {
     }
     
     func receiveHit() {
-        coreHalo.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
+        //determine what happens here
+//        coreHalo.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
     }
     
     func startSpinning() {
-        
-        core.run(coreRotation, withKey: "coreRotation")
+//        core.run(coreRotation, withKey: "coreRotation")
     }
     
     func stopSpinning() {

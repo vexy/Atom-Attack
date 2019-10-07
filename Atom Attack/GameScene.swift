@@ -12,6 +12,7 @@ import SpriteKit
 
 internal class GameScene: SKScene, SKPhysicsContactDelegate {
     
+//    private let backgroundColor = SKColor(white: 185.0 / 255.0, alpha: 1.0)
     
     private var ray: SKShapeNode?
     private var particle: SKShapeNode?
@@ -38,6 +39,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     }()
     private var rays: SKNode = SKNode()
 
+    // Gradients and flash action
     private lazy var gradientBackgroundTexture: SKTexture? = {
         SKTexture.textureWithVerticalGradient(
             size: CGSize(),
@@ -67,19 +69,24 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     private var level: Int = 0
     private var gameOver: Bool = false
     private var canReset: Bool = false
+    
+    // entities declaration (array of attacking atoms)
+    private var attackingAtoms = [Core()]
 
     // MARK: - Private Methods
     private func setupToggle() {
         actionCoreToggleColor = SKAction.run { [unowned self] in
-            guard let coreType = self.core.userData?["type"] as? Int else { return }
+//            guard let coreType = self.core.userData?["type"] as? Int else { return }
             
+            /*
             let whiteFactor = CGFloat(coreType > 0 ? 1 : 0)
             self.core.fillColor = SKColor(white: whiteFactor, alpha: 1.0)
             self.core.strokeColor = SKColor(white: whiteFactor, alpha: 1.0)
             self.core.children.forEach{ ($0 as? SKShapeNode)?.fillColor = SKColor(white: whiteFactor, alpha: 1.0) }
+            */
             
             //toggle core type
-            self.core.userData?["type"] = 1 - coreType
+//            self.core.userData?["type"] = 1 - coreType
         }
     }
 
@@ -92,14 +99,6 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         labelScore.text = "\(score)"
         labelLevel.text = "LEVEL \(level)"
-
-        haloScale = 1.0
-        coreHalo.xScale = haloScale
-        coreHalo.yScale = haloScale
-        coreHalo.alpha = 1.0
-        addChild(coreHalo)
-
-        core.alpha = 1.0
         
 
         let spawnRaysAction = SKAction.run { self.spawnRays() }
@@ -117,15 +116,15 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //setup ray & particle
         let newRay = createNewRay(ofType: typeValue, alpha: alpha)
-        let newParticle = createNewParticle(ofType: typeValue)
+//        let newParticle = createNewParticle(ofType: typeValue)
         
         //update collections
-        newRay.addChild(newParticle)
+       // newRay.addChild(newParticle)
         rays.addChild(newRay)
             
         //update class references
         self.ray = newRay
-        self.particle = newParticle
+        //self.particle = newParticle
             
         ray!.run(SKAction.sequence([SKAction.moveBy(x: 2_000 * sin(alpha), y: -2_000 * cos(alpha), duration: 5),
                                        SKAction.removeFromParent()]))
@@ -157,7 +156,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))  //UIHapticFeedback perhaps ?
 
         rays.removeAllChildren()
-        core.removeAction(forKey: "coreRotation")
+//        core.removeAction(forKey: "coreRotation")
 
         let fadeAction = SKAction.fadeAlpha(to: 0.0, duration: 0.2)
         let scaleAction = SKAction.scale(to: 0, duration: 0.2)
@@ -180,6 +179,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         let repeatAction = SKAction.repeat(sequenceOfActions, count: 4)
         let resetAction = SKAction.run { self.removeAllActions(); self.canReset = true }
         let flashSequence = SKAction.sequence([fadeBackgroundIn, repeatAction, fadeBackgroundOut, resetAction])
+        
         run(flashSequence, withKey: "flash")
     }
 
@@ -214,43 +214,85 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
             let waitAction = SKAction.wait(forDuration: timeToSpawn)
             run(SKAction.repeatForever(SKAction.sequence([spawnRaysAction, waitAction])), withKey: "spawnRays")
 
-            haloScale = 1.0
+            //haloScale = 1.0
         } else {
-            haloScale += 1.0
+            //haloScale += 1.0
         }
 
-        coreHalo.run(SKAction.scale(to: haloScale, duration: 0.2))
+        //coreHalo.run(SKAction.scale(to: haloScale, duration: 0.2))
     }
 
     // MARK: - Lifecycle
 
     override func didMove(to view: SKView) {
         backgroundColor = SKColor(white: 185.0 / 255.0, alpha: 1.0)
-
+        
         addChild(rays)
         addChild(gradientBackground)
         addChild(backgroundFlash)
 
         addChild(labelScore)
         addChild(labelLevel)
-        setupCore()
+        //setupCore()
         setupToggle()
 
         physicsWorld.gravity = .zero
         physicsWorld.contactDelegate = self
 
         resetScene()
+        print("Did move event")
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !gameOver {
-            if let action = actionCoreToggleColor {
-                core.run(action)
-            }
+            // Start the game
+            
+            //if let action = actionCoreToggleColor {
+            //    core.run(action)
+            //}
         } else {
             if canReset { resetScene() }
         }
     }
+    
+    // MARK: - SKSceneDelegate methods
+    override func update(_ currentTime: TimeInterval) {
+        print("Update logic metod, scene pause state: \(self.isPaused)")
+        guard !gameOver else { return }
+        
+        //check the leveling scale
+//        let newAtomsCount = LevelLogic.howManyNewAttoms()
+        
+        //if there are no attacking atoms, spawn new one(s)
+//        spawnNewAtoms(number: newAtomsCount)
+        
+        //spawnedAtoms.map( $0.attack(core) )
+        
+        //cleanup of redundant nodes
+        //exploded or colided attoms should be removed from scene
+        
+        //scene.removeExplodedAtoms()
+    }
+    
+    override func didSimulatePhysics() {
+        //after a collisions have been done, check for core hit
+//        if core.isHit { gameOver = true }
+        print("Physics simulated")
+    }
+    
+    override func didFinishUpdate() {
+        //process labels and other static display depending on the state
+        
+        if gameOver {
+            //display game over ?
+        } else {
+            //something
+        }
+        
+        print("Update finished, pausing immediatelly")
+//        self.isPaused = true
+    }
+    
 
     // MARK: - SKPhysicsContactDelegate
 
@@ -258,6 +300,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
 
+        // determine colided bodies
         if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
             firstBody = contact.bodyA
             secondBody = contact.bodyB
@@ -267,10 +310,15 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         let parent = secondBody.node?.parent
+        
+        print("First body is: \(firstBody.node?.name)")
+        print("Second body is: \(secondBody.node?.name)")
 
+        /*
         if firstBody.categoryBitMask & coreCategory == coreCategory {
             if let type1 = core.userData?["type"] as? Int {
                 if let type2 = parent?.userData?["type"] as? Int {
+                    
                     // no collisions while shaking
                     if let particlePhysicsBody = secondBody.node?.physicsBody {
                         particlePhysicsBody.isDynamic = false
@@ -288,5 +336,6 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
+        */
     }
 }
