@@ -11,19 +11,7 @@ import QuartzCore
 import SpriteKit
 
 internal class GameScene: SKScene, SKPhysicsContactDelegate {
-
-    // ui
-    private lazy var coreHalo: SKShapeNode = {
-        let node = SKShapeNode(circleOfRadius: 25)
-        node.fillColor = SKColor.lightGray
-        node.strokeColor = SKColor.lightGray
-        node.lineWidth = 1.0
-        node.position = CGPoint(x: self.frame.midX, y: self.frame.midY * 0.4)
-        node.zPosition = 1
-
-        return node
-    }()
-    private let core: SKShapeNode = SKShapeNode(circleOfRadius: 25)
+    
     
     private var ray: SKShapeNode?
     private var particle: SKShapeNode?
@@ -72,11 +60,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         return node
     }()
 
-    private var haloScale: CGFloat = 1.0
     private var actionCoreToggleColor: SKAction?
-
-    private let coreCategory: UInt32 = 1 << 0
-    private let rayCategory: UInt32  = 1 << 1
 
     // game
     private var score: Int = 0
@@ -85,43 +69,6 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     private var canReset: Bool = false
 
     // MARK: - Private Methods
-
-    private func setupCore() {
-        core.fillColor = SKColor(white: 1.0, alpha: 1.0)
-        core.strokeColor = SKColor(white: 1.0, alpha: 1.0)
-        core.lineWidth = 0.1
-        core.position = CGPoint(x: frame.midX, y: frame.midY * 0.4)
-        core.zPosition = 3
-        core.userData = ["type": 0]
-        core.physicsBody = SKPhysicsBody(circleOfRadius: 25)
-        core.physicsBody?.isDynamic = false
-        core.physicsBody?.categoryBitMask = coreCategory
-        core.physicsBody?.contactTestBitMask = rayCategory
-        
-        addCoreParticles()
-        addChild(core)
-    }
-    private func addCoreParticles() {
-        let particlePositions = [
-            CGPoint(x: 0.0, y: 20.0),
-            CGPoint(x: 17.3, y: 10.0),
-            CGPoint(x: 17.3, y: -10.0),
-            CGPoint(x: 0.0, y: 0.0),
-            CGPoint(x: -17.3, y: -10.0),
-            CGPoint(x: -17.3, y: 10.0),
-            CGPoint(x: 0.0, y: -20.0)
-        ]
-
-        for particlePosition in particlePositions {
-            let particle = SKShapeNode(circleOfRadius: 10)
-            particle.fillColor = core.fillColor
-            particle.strokeColor = backgroundColor
-            particle.lineWidth = 0.1
-            particle.position = particlePosition
-            core.addChild(particle)
-        }
-    }
-
     private func setupToggle() {
         actionCoreToggleColor = SKAction.run { [unowned self] in
             guard let coreType = self.core.userData?["type"] as? Int else { return }
@@ -153,8 +100,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(coreHalo)
 
         core.alpha = 1.0
-        let coreRotation = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi, duration: 2.5))
-        core.run(coreRotation, withKey: "coreRotation")
+        
 
         let spawnRaysAction = SKAction.run { self.spawnRays() }
         let waitAction = SKAction.wait(forDuration: 2.0)
@@ -203,28 +149,6 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         
         return newRay
     }
-    
-    /// Creates new particle `SKShapeNode` object for the given type parameter
-    private func createNewParticle(ofType type: Int) -> SKShapeNode {
-        let newParticle = SKShapeNode(circleOfRadius: 10)
-        
-        if type > 0 {
-            newParticle.fillColor = SKColor.black
-            newParticle.strokeColor = SKColor.black
-        } else {
-            newParticle.fillColor = SKColor.white
-            newParticle.strokeColor = SKColor.white
-        }
-        
-        newParticle.lineWidth = 0.1
-        newParticle.position = CGPoint(x: 0, y: 0)
-        newParticle.physicsBody = SKPhysicsBody(circleOfRadius: 10)
-        newParticle.physicsBody?.isDynamic = true
-        newParticle.physicsBody?.categoryBitMask = rayCategory
-        newParticle.physicsBody?.contactTestBitMask = coreCategory
-        
-        return newParticle
-    }
 
     private func doGameOver() {
         gameOver = true
@@ -237,7 +161,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         let fadeAction = SKAction.fadeAlpha(to: 0.0, duration: 0.2)
         let scaleAction = SKAction.scale(to: 0, duration: 0.2)
-        coreHalo.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
+        
 
         performFlashSequence()
     }
