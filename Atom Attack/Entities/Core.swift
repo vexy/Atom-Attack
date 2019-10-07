@@ -83,10 +83,18 @@ struct Core {
         coreShape.removeFromParent()
     }
     
-    func receiveHit() {
+    mutating func receiveHit() {
         print("CORE HAS BEEN HIT OMG OMG !!!")
         //determine what happens here
 //        coreHalo.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
+        haloScale += 1
+        let scaleAction = SKAction.scale(by: haloScale, duration: 0.15)
+        coreHalo.run(scaleAction)
+    }
+    
+    mutating func reset() {
+        haloScale = 1
+        coreHalo.setScale(1)
     }
     
     func startSpinning() {

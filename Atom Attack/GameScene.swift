@@ -33,7 +33,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     }()
     
     // Game entities
-    private var attackingAtoms = [Atom()]
+    private var spawnedAtoms = 0
     private var mainCore: Core = Core()
 
     // Gradients and flash action
@@ -75,10 +75,6 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         labelScore.text = "\(score)"
         labelLevel.text = "LEVEL \(level)"
-    }
-
-    private func spawnRays() {
-        guard !gameOver else { return }
     }
 
     /// Creates new ray `SKShapeNode` object for the given type parameter
@@ -129,43 +125,52 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         run(flashSequence, withKey: "flash")
     }
 
-    private func doScore() {
-        SKTAudio.shared.playSoundEffect("Contact.mp3")
-
-        score += 1
+    private func refreshScoreDisplay() {
         labelScore.text = "\(score)"
 
         if score > 0 && score % 5 == 0 {
             level += 1
             labelLevel.text = "LEVEL \(level)"
-
-            var timeToSpawn = 2.5
-            switch level {
-            case 1:
-                timeToSpawn = 2.0
-            case 2:
-                timeToSpawn = 1.5
-            case 3:
-                timeToSpawn = 1.0
-            case 4:
-                timeToSpawn = 0.5
-            case let level where level >= 5:
-                timeToSpawn = 0.25
-            default:
-                break
-            }
-
-            removeAction(forKey: "spawnRays")
-            let spawnRaysAction = SKAction.run { self.spawnRays() }
-            let waitAction = SKAction.wait(forDuration: timeToSpawn)
-            run(SKAction.repeatForever(SKAction.sequence([spawnRaysAction, waitAction])), withKey: "spawnRays")
-
-            //haloScale = 1.0
-        } else {
-            //haloScale += 1.0
         }
-
-        //coreHalo.run(SKAction.scale(to: haloScale, duration: 0.2))
+    }
+    
+    private func increaseScore() {
+        score += 1
+        if score > 0 && score % 5 == 0 {
+            level += 1
+        }
+        mainCore.receiveHit()
+    }
+    
+    func spawnNewAtoms() {
+        var maxAtomsForLevel = 1
+        var atomsToSpawn     = 0
+        
+        switch level {
+            case 0...2:
+                atomsToSpawn = 5
+                maxAtomsForLevel = 5
+                
+            case 2...4:
+                atomsToSpawn = 8
+                maxAtomsForLevel = 15
+            case 4... :
+                atomsToSpawn = 12
+                maxAtomsForLevel = 20
+            default:
+                atomsToSpawn = 1
+        }
+        
+        guard spawnedAtoms < maxAtomsForLevel else { return }
+        
+        //spawn new particle N amount of times
+        for _ in 0..<atomsToSpawn {
+            let newParticle = Atom()
+            newParticle.positionIn(scene: self)
+            let spawnTime: TimeInterval = Double.random(in: 2.5..<3.2)
+            newParticle.attack(point: mainCore.currentPosition, after: spawnTime)
+            spawnedAtoms += 1
+        }
     }
 
     // MARK: - Lifecycle
@@ -194,43 +199,18 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         if !gameOver {
-            // Start the game
-            
-            //if let action = actionCoreToggleColor {
-            //    core.run(action)
-            //}
+            mainCore.toggleColorScheme()
         } else {
             //toggle pause
 //            if canReset { resetScene() }
         }
-        
-        mainCore.toggleColorScheme()
-        
-//        self.isPaused = !self.isPaused
-//        print("Paused state: \(self.isPaused)")
-        
-        //spawn new particle
-        let newParticle = Atom()
-        
-        newParticle.positionIn(scene: self)
-        newParticle.attack(point: mainCore.currentPosition)
-        
-        //add us to the "bag"
-        attackingAtoms.append(newParticle)
     }
     
     // MARK: - SKSceneDelegate methods
     override func update(_ currentTime: TimeInterval) {
-//        print("Update logic metod, scene pause state: \(self.isPaused)")
         guard !gameOver else { return }
         
-        //check the leveling scale
-//        let newAtomsCount = LevelLogic.howManyNewAttoms()
-        
-        //if there are no attacking atoms, spawn new one(s)
-//        spawnNewAtoms(number: newAtomsCount)
-        
-        //spawnedAtoms.map( $0.attack(core) )
+        spawnNewAtoms()
         
         //cleanup of redundant nodes
         //exploded or colided attoms should be removed from scene
@@ -246,11 +226,11 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didFinishUpdate() {
         //process labels and other static display depending on the state
-        
         if gameOver {
             //display game over ?
         } else {
             //something
+            refreshScoreDisplay()
         }
         
 //        print("Update finished...")
@@ -259,6 +239,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     
 
     // MARK: - SKPhysicsContactDelegate
+    
     func didBegin(_ contact: SKPhysicsContact) {
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
@@ -283,6 +264,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         //comapre their colors
         if body1AsShape.fillColor == body2AsShape.fillColor {
             print("COLORS ARE SAME, INCREASE POINTS !!")
+            increaseScore()
         } else {
             print("COLORS ARE DIFFERENT, GAME OVER !")
             //mainCore.explode()

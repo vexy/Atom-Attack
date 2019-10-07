@@ -53,6 +53,11 @@ struct Atom {
         // atomShape.run(SKAction.sequence([moveToFinalPosition, .removeFromParent()]))
     }
     
+    func attack(point: CGPoint, after: TimeInterval) {
+        let timeout = SKAction.wait(forDuration: after)
+        atomShape.run(timeout, completion: { self.attack(point: point) })
+    }
+    
     func stopAttacking() {
         atomShape.removeAllActions()
     }
