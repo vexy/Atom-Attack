@@ -1,5 +1,5 @@
 //
-//  Protocols.swift
+//  Commons.swift
 //  Atom Attack
 //
 //  Created by Veljko Tekelerovic on 7.10.19.

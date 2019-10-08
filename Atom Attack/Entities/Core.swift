@@ -39,13 +39,14 @@ struct Core {
         coreShape.fillColor = SKColor(white: whiteFactor, alpha: 1.0)
         coreShape.strokeColor = SKColor(white: whiteFactor, alpha: 1.0)
         coreShape.lineWidth = 0.1
-        coreShape.zPosition = 3
+        coreShape.zPosition = 2
         coreShape.physicsBody = SKPhysicsBody(circleOfRadius: 25)
         coreShape.physicsBody?.isDynamic = false
         coreShape.physicsBody?.categoryBitMask = coreCategory
         coreShape.physicsBody?.contactTestBitMask = rayCategory
         
         addCoreParticles()
+        coreShape.addChild(coreHalo)
     }
     
     private func addCoreParticles() {
@@ -65,6 +66,7 @@ struct Core {
             particle.strokeColor = backgroundColor
             particle.lineWidth = 0.1
             particle.position = particlePosition
+            particle.zPosition = 3
             coreShape.addChild(particle)
         }
     }
@@ -99,12 +101,12 @@ extension Core {
         print("CORE HAS BEEN HIT OMG OMG !!!")
         //determine what happens here
         //        coreHalo.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
-        haloScale += 1
+        haloScale += 0.1
         let scaleAction = SKAction.scale(by: haloScale, duration: 0.15)
         coreHalo.run(scaleAction)
     }
     
-    mutating func reset() {
+    mutating func resetHalo() {
         haloScale = 1
         coreHalo.setScale(1)
     }

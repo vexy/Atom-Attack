@@ -33,8 +33,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     }()
     
     // Game entities
-    private var spawendAtoms = [Atom()]
-    private var totalAtomsInScene = 0
+    private var spawendAtomsCount = 0
     private var mainCore: Core = Core()
 
     // Gradients and flash action
@@ -73,12 +72,10 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         score = 0
         level = 0
+        spawendAtomsCount = 0
 
         labelScore.text = "\(score)"
         labelLevel.text = "LEVEL \(level)"
-        
-        //reset atoms container
-        spawendAtoms = []
     }
 
     /// Creates new ray `SKShapeNode` object for the given type parameter
@@ -102,33 +99,56 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
     private func doGameOver() {
         gameOver = true
-
+        
         SKTAudio.shared.playSoundEffect("Explosion.mp3")
-        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))  //UIHapticFeedback perhaps ?
-
-        performFlashSequence()
+        labelLevel.text = "GAME OVER :("
+        
+        spawendAtomsCount = 0
+        mainCore.stopSpinning()
+        flashBackground()
     }
     
-    private func performFlashSequence() {
+    private func flashBackground() {
+        //frist add our new "flashing node"
+//        addChild(backgroundFlash)
+        
+        //animation sequence parameters:
         let oldColor = backgroundFlash.fillColor
 
         removeAction(forKey: "flash")
-
         let wait = SKAction.wait(forDuration: 0.05)
         let fadeBackgroundIn        = SKAction.run { self.backgroundFlash.alpha = 1.0 }
         let fadeBackgroundOut       = SKAction.run { self.backgroundFlash.alpha = 0.0 }
         let turnBackgroundRed       = SKAction.run { self.backgroundFlash.fillColor = UIColor.red }
         let turnBackgroundWhite     = SKAction.run { self.backgroundFlash.fillColor = UIColor.white }
         let turnBackgroundOriginal  = SKAction.run { self.backgroundFlash.fillColor = oldColor }
-        let sequenceOfActions       = SKAction.sequence([turnBackgroundRed, wait, turnBackgroundWhite, wait, turnBackgroundOriginal])
-        let repeatAction            = SKAction.repeat(sequenceOfActions, count: 4)
-        let resetAction             = SKAction.run { self.removeAllActions(); self.canReset = true }
-        let flashSequence           = SKAction.sequence([fadeBackgroundIn, repeatAction, fadeBackgroundOut, resetAction])
+        //construct Flashing animation from above
+        let flashSequence           = SKAction.sequence([
+            turnBackgroundRed,
+            wait,
+            turnBackgroundWhite,
+            wait,
+            turnBackgroundOriginal
+        ])
+        let repeatFlash             = SKAction.repeat(flashSequence, count: 4)
+        let resetAction             = SKAction.run {
+            self.backgroundFlash.removeAllActions()
+            self.backgroundFlash.removeFromParent()
+            self.canReset = true
+        }
         
-        run(flashSequence, withKey: "flash")
+        // fade-in, keep flashing, fade-out, cleanup
+        let finalAnimationSequence  = SKAction.sequence([
+            fadeBackgroundIn,
+            repeatFlash,
+            fadeBackgroundOut,
+            resetAction
+        ])
+        
+        run(finalAnimationSequence, withKey: "flash")
     }
 
-    private func refreshScoreDisplay() {
+    private func updateScoreDisplay() {
         labelScore.text = "\(score)"
         labelLevel.text = "LEVEL \(level)"
     }
@@ -136,34 +156,33 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     private func increaseScore() {
         score += 1
         if score > 0 && score % 5 == 0 {
+            mainCore.resetHalo()
             level += 1
         }
     }
+
+    private func shouldSpawnNewAtoms() -> Bool {
+        //return true if there is less atoms than designated
+        return spawendAtomsCount <= maxAtomsForLevel()
+    }
     
-    private func spawnNewAtoms() {
-        //get maximum allowed number of atoms for current level
-        let maxAllowedAtoms = maxAtomsForLevel(level)
-        
-        //check if we have to spawn any new atoms
-        guard totalAtomsInScene <= maxAllowedAtoms else {
-            print("There's plenty of Atoms already, NOT SPAWNING NEW ONES")
-            return
-        }
-        
-        //get the difference count of new atoms to spawn
-        let remainingCountToSpawn = maxAllowedAtoms - totalAtomsInScene
-        for _ in 0..<remainingCountToSpawn {
+    private func spawnNewAtoms() -> [Atom] {
+        var newAtoms: [Atom] = []
+
+        //get the amount of new atoms to spawn
+        let newAtomsCount = maxAtomsForLevel() - spawendAtomsCount
+        for _ in 0..<newAtomsCount {
             let atomColor = getRandomAtomColor()
-            let newAtom = Atom(color: atomColor)
+            let newAtom   = Atom(color: atomColor)
             
-            //add new atom to the scene and update our container
-            newAtom.positionIn(scene: self)
-            spawendAtoms.append(newAtom)
+            newAtoms.append(newAtom)
         }
+        
+        return newAtoms
     }
     
     /// Determines maximum number of Atoms allowed for given level
-    private func maxAtomsForLevel(_ level: Int) -> Int {
+    private func maxAtomsForLevel() -> Int {
         var returnValue: Int = 0
         
         //TODO: ^^ put some fancy logic here ^^
@@ -182,8 +201,47 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func getRandomAtomColor() -> ColorTheme {
-        let r = Int.random(in: 0..<1)
-        return r == 0 ? ColorTheme.white : ColorTheme.black
+        let rnd = Int.random(in: 0..<2)
+        return rnd == 0 ? ColorTheme.white : ColorTheme.black
+    }
+
+    private func getRandomSpeed() -> TimeInterval {
+        //determine random boundaries based on the level
+        var lowerBound: TimeInterval = 1.1
+        
+        //TODO: ^^ put some fancy logic here ^^
+        switch level {
+            case 0...2:
+                lowerBound = 3.6
+            case 2...4:
+                lowerBound = 3.1
+            case 4... :
+                lowerBound = 2.8
+            default:
+                lowerBound = 3
+        }
+        
+        let randomSpeed = Double.random(in: lowerBound..<6.5)
+        return randomSpeed
+    }
+
+    private func getRandomDelay() -> TimeInterval {
+        var lowerBound: TimeInterval = 2.55
+        
+        //TODO: ^^ put some fancy logic here ^^
+        switch level {
+            case 0...2:
+                lowerBound = 3.14
+            case 2...4:
+                lowerBound = 2.62
+            case 4... :
+                lowerBound = 1.31
+            default:
+                lowerBound = 3.0
+        }
+        
+        let randomDelay = Double.random(in: lowerBound..<6.5)
+        return randomDelay
     }
 
     // MARK: - Lifecycle
@@ -216,40 +274,37 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: - SKSceneDelegate methods
     override func update(_ currentTime: TimeInterval) {
+        //exit immediately if the game is over and there's enough atoms already
         guard !gameOver else { return }
-        
-        //spawn new atoms (if needed)
-        spawnNewAtoms()
-        
-        //make sure all attoms are attacking
-        let nonAttackingAtoms = spawendAtoms.filter{ $0.isAttacking == false }  // !$0.isAttacking
-        if !nonAttackingAtoms.isEmpty {
-            nonAttackingAtoms.forEach{ $0.attack(point: mainCore.currentPosition) }
+        guard spawendAtomsCount < maxAtomsForLevel() else {
+            print("Waiting to spawn new atoms...")
+            return
         }
+        
+        //spawn some new atoms
+        let newAtomsWave = spawnNewAtoms()
+        
+        newAtomsWave.forEach{
+            let atomSpeed   = getRandomSpeed()
+            let delay       = getRandomDelay()
+            
+            $0.positionIn(scene: self)
+            $0.movementSpeed = atomSpeed
+            $0.attack(point: mainCore.currentPosition, after: delay)    //..get that core son !!
+            
+            print("Attacking with speed=\(atomSpeed), delay=\(delay)")
+        }
+        
+        //update our count of spawned atoms
+        spawendAtomsCount += newAtomsWave.count
     }
     
     override func didSimulatePhysics() {
-        //after a collisions have been done, check for core hit
-//        if core.isHit { gameOver = true }
-//        print("Physics simulated")
+        guard !gameOver else { return }
+        updateScoreDisplay()
     }
-    
-    override func didFinishUpdate() {
-        //process labels and other static display depending on the state
-        if gameOver {
-            //display game over ?
-        } else {
-            //something
-            refreshScoreDisplay()
-        }
-        
-//        print("Update finished...")
-//        self.isPaused = true
-    }
-    
 
     // MARK: - SKPhysicsContactDelegate
-    
     func didBegin(_ contact: SKPhysicsContact) {
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
@@ -271,19 +326,18 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let body1AsShape = firstBody.node as? SKShapeNode else { return }
         guard let body2AsShape = secondBody.node as? SKShapeNode else { return }
         
-        //comapre their colors (generically -> "computeHitEffect(shape1, shape2)"
+        //compare their colors (generically -> "computeHitEffect(shape1, shape2)"
         if body1AsShape.fillColor == body2AsShape.fillColor {
             print("COLORS ARE SAME, INCREASE POINTS !!")
             increaseScore()
             mainCore.receiveHit()
+            
+            //decrease number of spawned atoms due to this hit
+            spawendAtomsCount -= 1
+            secondBody.node?.removeFromParent()
         } else {
             print("COLORS ARE DIFFERENT, GAME OVER !")
-            //mainCore.explode()
-            mainCore.stopSpinning()
-            labelLevel.text = "GAME OVER :("
-            gameOver = true
+            doGameOver()
         }
-
-        secondBody.node?.removeFromParent()
     }
 }

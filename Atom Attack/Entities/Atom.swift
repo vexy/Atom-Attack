@@ -76,8 +76,8 @@ class Atom {
     
     func attack(point: CGPoint, after: TimeInterval) {
         let timeout = SKAction.wait(forDuration: after)
-        atomShape.run(timeout) { [weak self] in
-            self?.attack(point: point)
+        atomShape.run(timeout) {
+            self.attack(point: point)
         }
     }
     
