@@ -8,12 +8,29 @@
 
 import SpriteKit
 
-struct Atom {
+class Atom {
     private let atomShape: SKShapeNode
     private var atomColor: ColorTheme
+    private var inAttackMode: Bool = false
+    
+    private var attackingSpeed: TimeInterval = 1.0 //TODO: experiment w/ this value
+    public var movementSpeed: TimeInterval {
+        willSet {
+            assert(newValue > 0)
+            attackingSpeed = newValue
+        }
+    }
+    
+    /// Flag indicating weather attack() method has been called
+    public var isAttacking: Bool {
+        return inAttackMode
+    }
     
     init(color: ColorTheme = .white) {
+        //variable initialization
         atomColor = color
+        movementSpeed = attackingSpeed  //easier to experiment
+        
         atomShape = SKShapeNode(circleOfRadius: 10)
         atomShape.name = "Atom"
         
@@ -46,16 +63,22 @@ struct Atom {
         scene.addChild(atomShape)
     }
     
+    /// Attacks (moves) the Atom to a given point
     func attack(point: CGPoint) {
-        let moveToFinalPosition = SKAction.move(to: point, duration: 5)
-        atomShape.run(moveToFinalPosition)
-        // alternative :
-        // atomShape.run(SKAction.sequence([moveToFinalPosition, .removeFromParent()]))
+        let moveToFinalPosition = SKAction.move(to: point, duration: attackingSpeed)
+        
+        //update our flag first
+        inAttackMode = true
+        atomShape.run(moveToFinalPosition) { [weak self] in
+            self?.inAttackMode = false
+        }
     }
     
     func attack(point: CGPoint, after: TimeInterval) {
         let timeout = SKAction.wait(forDuration: after)
-        atomShape.run(timeout, completion: { self.attack(point: point) })
+        atomShape.run(timeout) { [weak self] in
+            self?.attack(point: point)
+        }
     }
     
     func stopAttacking() {

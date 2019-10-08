@@ -68,7 +68,10 @@ struct Core {
             coreShape.addChild(particle)
         }
     }
-    
+}
+
+// MARK:- Public methods
+extension Core {
     func addTo(scene: SKScene) {
         guard let frame = scene.view?.frame else { fatalError("Unable to get Scene frame") }
         coreShape.position = CGPoint(x: frame.midX, y: frame.midY * 0.4)
@@ -83,10 +86,19 @@ struct Core {
         coreShape.removeFromParent()
     }
     
+    func startSpinning() {
+        let rotationAction = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi, duration: 2.5))
+        coreShape.run(rotationAction, withKey: "coreRotation")
+    }
+    
+    func stopSpinning() {
+        coreShape.removeAllActions()
+    }
+    
     mutating func receiveHit() {
         print("CORE HAS BEEN HIT OMG OMG !!!")
         //determine what happens here
-//        coreHalo.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
+        //        coreHalo.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
         haloScale += 1
         let scaleAction = SKAction.scale(by: haloScale, duration: 0.15)
         coreHalo.run(scaleAction)
@@ -95,15 +107,6 @@ struct Core {
     mutating func reset() {
         haloScale = 1
         coreHalo.setScale(1)
-    }
-    
-    func startSpinning() {
-        let rotationAction = SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat.pi, duration: 2.5))
-        coreShape.run(rotationAction, withKey: "coreRotation")
-    }
-    
-    func stopSpinning() {
-        coreShape.removeAllActions()
     }
     
     mutating func toggleColorScheme() {
@@ -116,8 +119,8 @@ struct Core {
         
         //change color of core and particles depending on the current color
         let newColor: UIColor = coreColor == .white ? .white : .black
-        coreShape.fillColor = newColor
-        coreShape.strokeColor = newColor
+        coreShape.fillColor     = newColor
+        coreShape.strokeColor   = newColor
         coreShape.children.forEach{
             ($0 as? SKShapeNode)?.fillColor = newColor
         }
