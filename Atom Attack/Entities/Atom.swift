@@ -89,15 +89,6 @@ class Atom {
         }
     }
     
-    private func attackTargetAction(_ targetPoint: CGPoint) -> SKAction {
-        let followingPath = UIBezierPath()
-        followingPath.move(to: atomShape.position)
-        followingPath.addLine(to: targetPoint)
-        followingPath.close()
-        
-        return SKAction.follow(followingPath.cgPath, asOffset: false, orientToPath: true, duration: attackingSpeed)
-    }
-    
     private func addRay() {
         let rayNode = SKShapeNode(rect: CGRect(x: -10, y: 0, width: 20, height: 3_000))
         let whiteFactor: CGFloat = atomColor == .black ? 0.2 : 1.0
@@ -106,8 +97,19 @@ class Atom {
         rayNode.strokeColor = SKColor.clear
         rayNode.lineWidth = 0.1
         rayNode.zPosition = 1
+        let rotationAngle = SKAction.rotate(byAngle: .pi, duration: 0.01)
+        rayNode.run(rotationAngle)
         
         atomShape.addChild(rayNode)
+    }
+    
+    private func attackTargetAction(_ targetPoint: CGPoint) -> SKAction {
+        let followingPath = CGMutablePath()
+        followingPath.move(to: atomShape.position)
+        followingPath.addLine(to: targetPoint)
+        followingPath.closeSubpath()
+        
+        return SKAction.follow(followingPath, asOffset: false, orientToPath: true, duration: attackingSpeed)
     }
     
     func stopAttacking() {
