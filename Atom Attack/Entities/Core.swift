@@ -16,8 +16,9 @@ struct Core {
         let node = SKShapeNode(circleOfRadius: 25)
         node.fillColor = SKColor.lightGray
         node.strokeColor = SKColor.lightGray
-        node.lineWidth = 1.0
+        node.lineWidth = 0.35
         node.zPosition = 1
+        node.physicsBody?.isDynamic = false
         
         return node
     }()

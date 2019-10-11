@@ -12,8 +12,9 @@ class Atom {
     private let atomShape: SKShapeNode
     private var atomColor: ColorTheme
     private var inAttackMode: Bool = false
+    private let actionName = "attackingAction"
     
-    private var attackingSpeed: TimeInterval = 1.0 //TODO: experiment w/ this value
+    private var attackingSpeed: TimeInterval = 5.0 //TODO: experiment w/ this value
     public var movementSpeed: TimeInterval {
         willSet {
             assert(newValue > 0)
@@ -65,14 +66,16 @@ class Atom {
     
     /// Attacks (moves) the Atom to a given point
     func attack(point: CGPoint) {
-        let moveToFinalPosition = SKAction.move(to: point, duration: attackingSpeed)
-        
+        let attackTarget = SKAction.move(to: point, duration: attackingSpeed)
+        let attackingSequence = SKAction.sequence([attackTarget, .removeFromParent()])
+            
         //update our flag first
         inAttackMode = true
-        atomShape.run(moveToFinalPosition) { [weak self] in
+        atomShape.run(attackingSequence) { [weak self] in
             self?.inAttackMode = false
         }
     }
+    
     
     func attack(point: CGPoint, after: TimeInterval) {
         let timeout = SKAction.wait(forDuration: after)

@@ -23,6 +23,7 @@
 		C51C2CCC234A702000103BF9 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCB234A702000103BF9 /* Core.swift */; };
 		C51C2CCE234B81D100103BF9 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCD234B81D100103BF9 /* Commons.swift */; };
 		C51C2CD0234B9F1F00103BF9 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCF234B9F1F00103BF9 /* Atom.swift */; };
+		C5B368E12350C9A7002EA445 /* AtomsSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B368E02350C9A7002EA445 /* AtomsSeeder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		C51C2CCB234A702000103BF9 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		C51C2CCD234B81D100103BF9 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		C51C2CCF234B9F1F00103BF9 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
+		C5B368E02350C9A7002EA445 /* AtomsSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomsSeeder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 			children = (
 				C51C2CCB234A702000103BF9 /* Core.swift */,
 				C51C2CCF234B9F1F00103BF9 /* Atom.swift */,
+				C5B368E02350C9A7002EA445 /* AtomsSeeder.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				862F0C3F1C0A28F2001E6DA7 /* GameViewController.swift in Sources */,
 				C51C2CCE234B81D100103BF9 /* Commons.swift in Sources */,
 				863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */,
+				C5B368E12350C9A7002EA445 /* AtomsSeeder.swift in Sources */,
 				863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */,
 				8638877E1FF7A62D0069FB8E /* SKTAudio.swift in Sources */,
 				C51C2CCC234A702000103BF9 /* Core.swift in Sources */,
