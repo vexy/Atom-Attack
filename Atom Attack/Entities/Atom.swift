@@ -12,8 +12,9 @@ class Atom {
     private let atomShape: SKShapeNode
     private var atomColor: ColorTheme
     private var inAttackMode: Bool = false
+    private let actionName = "attackingAction"
     
-    private var attackingSpeed: TimeInterval = 1.0 //TODO: experiment w/ this value
+    private var attackingSpeed: TimeInterval = 5.0 //TODO: experiment w/ this value
     public var movementSpeed: TimeInterval {
         willSet {
             assert(newValue > 0)
@@ -26,7 +27,7 @@ class Atom {
         return inAttackMode
     }
     
-    init(color: ColorTheme = .white) {
+    required init(color: ColorTheme = .white) {
         //variable initialization
         atomColor = color
         movementSpeed = attackingSpeed  //easier to experiment
@@ -50,7 +51,11 @@ class Atom {
         atomShape.physicsBody?.contactTestBitMask = coreCategory
     }
     
-    func positionIn(scene: SKScene) {
+    convenience init() {
+        self.init(color: .white)
+    }
+    
+    func position(in scene: SKScene) {
         guard let sceneBounds = scene.view?.bounds else {
             fatalError("Unable to get scene bounds")
         }
@@ -65,14 +70,17 @@ class Atom {
     
     /// Attacks (moves) the Atom to a given point
     func attack(point: CGPoint) {
-        let moveToFinalPosition = SKAction.move(to: point, duration: attackingSpeed)
-        
+        let attackTarget = SKAction.move(to: point, duration: attackingSpeed)
+        let removalAction = SKAction.run { self.destroy() }
+        let attackingSequence = SKAction.sequence([attackTarget, removalAction])
+            
         //update our flag first
         inAttackMode = true
-        atomShape.run(moveToFinalPosition) { [weak self] in
+        atomShape.run(attackingSequence) { [weak self] in
             self?.inAttackMode = false
         }
     }
+    
     
     func attack(point: CGPoint, after: TimeInterval) {
         let timeout = SKAction.wait(forDuration: after)
@@ -86,6 +94,7 @@ class Atom {
     }
     
     func destroy() {
+        //play destroy animation
         atomShape.removeAllChildren()
         atomShape.removeAllActions()
         atomShape.removeFromParent()

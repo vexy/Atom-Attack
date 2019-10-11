@@ -16,8 +16,10 @@ struct Core {
         let node = SKShapeNode(circleOfRadius: 25)
         node.fillColor = SKColor.lightGray
         node.strokeColor = SKColor.lightGray
-        node.lineWidth = 1.0
+        node.lineWidth = 0.25
         node.zPosition = 1
+        node.alpha = 0.25
+        node.physicsBody?.isDynamic = false
         
         return node
     }()
@@ -74,7 +76,7 @@ struct Core {
 
 // MARK:- Public methods
 extension Core {
-    func addTo(scene: SKScene) {
+    func place(in scene: SKScene) {
         guard let frame = scene.view?.frame else { fatalError("Unable to get Scene frame") }
         coreShape.position = CGPoint(x: frame.midX, y: frame.midY * 0.4)
         
@@ -94,21 +96,22 @@ extension Core {
     }
     
     func stopSpinning() {
-        coreShape.removeAllActions()
+        coreShape.removeAction(forKey: "coreRotation")
     }
     
     mutating func receiveHit() {
-        print("CORE HAS BEEN HIT OMG OMG !!!")
-        //determine what happens here
-        //        coreHalo.run(SKAction.sequence([SKAction.group([fadeAction, scaleAction]), SKAction.removeFromParent()]))
-        haloScale += 0.1
-        let scaleAction = SKAction.scale(by: haloScale, duration: 0.15)
-        coreHalo.run(scaleAction)
+        haloScale += 1
+        performHaloScale()
     }
     
     mutating func resetHalo() {
         haloScale = 1
-        coreHalo.setScale(1)
+        performHaloScale()
+    }
+    
+    mutating private func performHaloScale() {
+        let scaleAction = SKAction.scale(to: haloScale, duration: 0.2)
+        coreHalo.run(scaleAction)
     }
     
     mutating func toggleColorScheme() {
@@ -123,7 +126,7 @@ extension Core {
         let newColor: UIColor = coreColor == .white ? .white : .black
         coreShape.fillColor     = newColor
         coreShape.strokeColor   = newColor
-        coreShape.children.forEach{
+        coreShape.children.forEach {
             ($0 as? SKShapeNode)?.fillColor = newColor
         }
     }
