@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class AtomsSeeder {
+final class AtomsSeeder {
     private weak var containerScene: SKScene?   //avoiding strong referencing
     private let animationKey = "spawningAtoms"
     private var seedTimeout: TimeInterval = TimeInterval(2)
@@ -60,9 +60,8 @@ class AtomsSeeder {
         guard let liveScene = containerScene else { return }
         liveScene.removeAction(forKey: animationKey)
         
-        _spawnedAtoms.forEach{ $0.destroy() }
-        
         //update our container
+        _spawnedAtoms.forEach{ $0.destroy() }
         _spawnedAtoms.removeAll()
     }
     
@@ -84,66 +83,8 @@ class AtomsSeeder {
         }
     }
     
-    /// Determines maximum number of Atoms allowed for given level
-    private func maxAtomsForLevel() -> Int {
-        var returnValue: Int = 0
-        
-        //TODO: ^^ put some fancy logic here ^^
-        switch currentLevel {
-            case 0...2:
-                returnValue = 5
-            case 2...4:
-                returnValue = 9
-            case 4... :
-                returnValue = 13
-            default:
-                returnValue = 3
-        }
-        
-        return returnValue
-    }
-    
     private func getRandomAtomColor() -> ColorTheme {
         let rnd = Int.random(in: 0..<2)
         return rnd == 0 ? ColorTheme.white : ColorTheme.black
-    }
-
-    private func getRandomSpeed() -> TimeInterval {
-        //determine random boundaries based on the level
-        var lowerBound: TimeInterval = 1.1
-        
-        //TODO: ^^ put some fancy logic here ^^
-        switch currentLevel {
-            case 0...2:
-                lowerBound = 3.6
-            case 2...4:
-                lowerBound = 3.1
-            case 4... :
-                lowerBound = 2.8
-            default:
-                lowerBound = 3
-        }
-        
-        let randomSpeed = Double.random(in: lowerBound..<6.5)
-        return randomSpeed
-    }
-
-    private func getRandomDelay() -> TimeInterval {
-        var lowerBound: TimeInterval = 2.55
-        
-        //TODO: ^^ put some fancy logic here ^^
-        switch currentLevel {
-            case 0...2:
-                lowerBound = 3.14
-            case 2...4:
-                lowerBound = 2.62
-            case 4... :
-                lowerBound = 1.31
-            default:
-                lowerBound = 3.0
-        }
-        
-        let randomDelay = Double.random(in: lowerBound..<6.5)
-        return randomDelay
     }
 }

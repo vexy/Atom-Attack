@@ -14,7 +14,7 @@ class Atom {
     private var inAttackMode: Bool = false
     private let actionName = "attackingAction"
     
-    private var attackingSpeed: TimeInterval = 5.0 //TODO: experiment w/ this value
+    private var attackingSpeed: TimeInterval = 5.0      //TODO: experiment w/ this value
     public var movementSpeed: TimeInterval {
         willSet {
             assert(newValue > 0)
@@ -68,11 +68,12 @@ class Atom {
         scene.addChild(atomShape)
     }
     
-    /// Attacks (moves) the Atom to a given point
+    /// Starts moving the Atom to a given point
     func attack(point: CGPoint) {
-        let attackTarget = SKAction.move(to: point, duration: attackingSpeed)
-        let removalAction = SKAction.run { self.destroy() }
-        let attackingSequence = SKAction.sequence([attackTarget, removalAction])
+        let addAtomRay        = SKAction.run { self.addRay() }
+        let attackTarget      = self.attackTargetAction(point)
+        let removalAction     = SKAction.run { self.destroy() }
+        let attackingSequence = SKAction.sequence([addAtomRay, attackTarget, removalAction])
             
         //update our flag first
         inAttackMode = true
@@ -81,12 +82,32 @@ class Atom {
         }
     }
     
-    
     func attack(point: CGPoint, after: TimeInterval) {
         let timeout = SKAction.wait(forDuration: after)
         atomShape.run(timeout) {
             self.attack(point: point)
         }
+    }
+    
+    private func attackTargetAction(_ targetPoint: CGPoint) -> SKAction {
+        let followingPath = UIBezierPath()
+        followingPath.move(to: atomShape.position)
+        followingPath.addLine(to: targetPoint)
+        followingPath.close()
+        
+        return SKAction.follow(followingPath.cgPath, asOffset: false, orientToPath: true, duration: attackingSpeed)
+    }
+    
+    private func addRay() {
+        let rayNode = SKShapeNode(rect: CGRect(x: -10, y: 0, width: 20, height: 3_000))
+        let whiteFactor: CGFloat = atomColor == .black ? 0.2 : 1.0
+        
+        rayNode.fillColor = SKColor(white: whiteFactor, alpha: 0.2)
+        rayNode.strokeColor = SKColor.clear
+        rayNode.lineWidth = 0.1
+        rayNode.zPosition = 1
+        
+        atomShape.addChild(rayNode)
     }
     
     func stopAttacking() {

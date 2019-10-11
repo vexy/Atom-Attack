@@ -224,5 +224,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             doGameOver()
         }
+        
+        body2AsShape.removeFromParent()
     }
 }

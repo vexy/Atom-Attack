@@ -9,31 +9,21 @@
 import SpriteKit
 
 struct Core {
-    private var haloScale: CGFloat = 1.0
     private let backgroundColor = SKColor(white: 185.0 / 255.0, alpha: 1.0)
-    
-    private lazy var coreHalo: SKShapeNode = {
-        let node = SKShapeNode(circleOfRadius: 25)
-        node.fillColor = SKColor.lightGray
-        node.strokeColor = SKColor.lightGray
-        node.lineWidth = 0.25
-        node.zPosition = 1
-        node.alpha = 0.25
-        node.physicsBody?.isDynamic = false
-        
-        return node
-    }()
     
     private let coreShape: SKShapeNode
     private var coreColor: ColorTheme
+    
+    private let coreHalo: SKShapeNode = SKShapeNode(circleOfRadius: 25)
+    private var haloScale: CGFloat = 1.0
     
     public var currentPosition: CGPoint {
         return coreShape.position
     }
     
-    
     init(color: ColorTheme = .white) {
         coreColor = color
+
         let whiteFactor = CGFloat(coreColor == .white ? 1 : 0)
         
         coreShape = SKShapeNode(circleOfRadius: 25)
@@ -48,6 +38,7 @@ struct Core {
         coreShape.physicsBody?.contactTestBitMask = rayCategory
         
         addCoreParticles()
+        constructHalo()
         coreShape.addChild(coreHalo)
     }
     
@@ -71,6 +62,15 @@ struct Core {
             particle.zPosition = 3
             coreShape.addChild(particle)
         }
+    }
+    
+    private func constructHalo() {
+        coreHalo.fillColor = SKColor.lightGray
+        coreHalo.strokeColor = SKColor.lightGray
+        coreHalo.lineWidth = 0.25
+        coreHalo.zPosition = 1
+        coreHalo.alpha = 0.25
+        coreHalo.physicsBody?.isDynamic = false
     }
 }
 
