@@ -54,7 +54,6 @@ class AtomsSeeder {
         
         //update our container
         _spawnedAtoms.append(newAtom)
-        print("New atom spawned")
     }
     
     func stopSpawningAtoms() {
@@ -70,7 +69,7 @@ class AtomsSeeder {
     private func processLevelUpdate(_ newLevel: Int) {
         //for now, just update seedTimeout as per original logic
         switch newLevel {
-            case 1:
+            case 0..<1:
                 seedTimeout = 2.0
             case 2:
                 seedTimeout = 1.5

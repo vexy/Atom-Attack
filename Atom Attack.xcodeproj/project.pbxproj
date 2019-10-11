@@ -16,9 +16,7 @@
 		862F0C6B1C0A298F001E6DA7 /* Click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5C1C0A298F001E6DA7 /* Click.mp3 */; };
 		862F0C6C1C0A298F001E6DA7 /* Contact.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5D1C0A298F001E6DA7 /* Contact.mp3 */; };
 		862F0C6D1C0A298F001E6DA7 /* Explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */; };
-		8638877E1FF7A62D0069FB8E /* SKTAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638877D1FF7A62D0069FB8E /* SKTAudio.swift */; };
-		863887861FF7C7890069FB8E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887831FF7C7890069FB8E /* CGFloat+Extensions.swift */; };
-		863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887841FF7C7890069FB8E /* Int+Extensions.swift */; };
+		8638877E1FF7A62D0069FB8E /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */; };
 		863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */; };
 		C51C2CCC234A702000103BF9 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCB234A702000103BF9 /* Core.swift */; };
 		C51C2CCE234B81D100103BF9 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCD234B81D100103BF9 /* Commons.swift */; };
@@ -38,9 +36,7 @@
 		862F0C5C1C0A298F001E6DA7 /* Click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Click.mp3; sourceTree = "<group>"; };
 		862F0C5D1C0A298F001E6DA7 /* Contact.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Contact.mp3; sourceTree = "<group>"; };
 		862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Explosion.mp3; sourceTree = "<group>"; };
-		8638877D1FF7A62D0069FB8E /* SKTAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTAudio.swift; sourceTree = "<group>"; };
-		863887831FF7C7890069FB8E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
-		863887841FF7C7890069FB8E /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoundPlayer.swift; path = ../SoundPlayer.swift; sourceTree = "<group>"; };
 		863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKTexture+Gradient.swift"; sourceTree = "<group>"; };
 		C51C2CCB234A702000103BF9 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		C51C2CCD234B81D100103BF9 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
@@ -88,7 +84,6 @@
 				862F0C481C0A28F2001E6DA7 /* Info.plist */,
 				862F0C451C0A28F2001E6DA7 /* LaunchScreen.storyboard */,
 				862F0C401C0A28F2001E6DA7 /* Main.storyboard */,
-				8638877D1FF7A62D0069FB8E /* SKTAudio.swift */,
 				862F0C5B1C0A298F001E6DA7 /* Sounds */,
 			);
 			path = "Atom Attack";
@@ -107,8 +102,6 @@
 		863887821FF7C7890069FB8E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				863887831FF7C7890069FB8E /* CGFloat+Extensions.swift */,
-				863887841FF7C7890069FB8E /* Int+Extensions.swift */,
 				863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */,
 			);
 			path = Extensions;
@@ -117,6 +110,7 @@
 		C51C2CCA234A6FDD00103BF9 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
+				8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */,
 				C51C2CCB234A702000103BF9 /* Core.swift */,
 				C51C2CCF234B9F1F00103BF9 /* Atom.swift */,
 				C5B368E02350C9A7002EA445 /* AtomsSeeder.swift */,
@@ -157,6 +151,7 @@
 				TargetAttributes = {
 					862F0C341C0A28F2001E6DA7 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = 8AE6XHH28M;
 						LastSwiftMigration = 0920;
 					};
 				};
@@ -218,14 +213,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				862F0C3D1C0A28F2001E6DA7 /* GameScene.swift in Sources */,
-				863887861FF7C7890069FB8E /* CGFloat+Extensions.swift in Sources */,
 				C51C2CD0234B9F1F00103BF9 /* Atom.swift in Sources */,
 				862F0C3F1C0A28F2001E6DA7 /* GameViewController.swift in Sources */,
 				C51C2CCE234B81D100103BF9 /* Commons.swift in Sources */,
-				863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */,
 				C5B368E12350C9A7002EA445 /* AtomsSeeder.swift in Sources */,
 				863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */,
-				8638877E1FF7A62D0069FB8E /* SKTAudio.swift in Sources */,
+				8638877E1FF7A62D0069FB8E /* SoundPlayer.swift in Sources */,
 				C51C2CCC234A702000103BF9 /* Core.swift in Sources */,
 				862F0C391C0A28F2001E6DA7 /* AppDelegate.swift in Sources */,
 			);
@@ -362,11 +355,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
+				DEVELOPMENT_TEAM = 8AE6XHH28M;
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "XC: *";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
 			};
@@ -377,11 +372,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
+				DEVELOPMENT_TEAM = 8AE6XHH28M;
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "XC: *";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 5.0;
 			};

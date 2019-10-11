@@ -80,7 +80,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOver = true
         gameStarted = false
         
-        SKTAudio.shared.playSoundEffect("Explosion.mp3")
+        SoundPlayer.play(soundEffect: .gameOver)
         labelLevel.text = "GAME OVER :("
         
         mainCore.stopSpinning()
@@ -220,6 +220,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         if body1AsShape.fillColor == body2AsShape.fillColor {
             increaseScore()
             mainCore.receiveHit()
+            SoundPlayer.play(soundEffect: .coreHit)
         } else {
             doGameOver()
         }
