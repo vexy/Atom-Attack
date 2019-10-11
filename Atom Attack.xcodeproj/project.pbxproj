@@ -163,10 +163,9 @@
 			};
 			buildConfigurationList = 862F0C301C0A28F2001E6DA7 /* Build configuration list for PBXProject "Atom Attack" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
 				en,
 				Base,
 			);

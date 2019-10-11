@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-struct AtomsSeeder {
+class AtomsSeeder {
     private weak var containerScene: SKScene?   //avoiding strong referencing
     private let animationKey = "spawningAtoms"
     private var seedTimeout: TimeInterval = TimeInterval(2)
@@ -18,13 +18,22 @@ struct AtomsSeeder {
         willSet { processLevelUpdate(newValue) }
     }
     
+    private var _spawnedAtoms: [Atom] = []
+    public var spawnedAtoms: [Atom] {
+        get { _spawnedAtoms }   //Swift 5 nerd !
+    }
+    //
+    public var attackingAtoms: [Atom] {
+        get { _spawnedAtoms.filter{ $0.isAttacking }  }
+    }
+    //
+    public var nonAttackingAtoms: [Atom] {
+        get { _spawnedAtoms.filter{ !$0.isAttacking }   }
+    }
+    
     init(scene: SKScene) {
         containerScene = scene
         currentLevel = 0
-    }
-    
-    func spawnAtoms(repeat: Int) {
-        
     }
     
     func startSpawningAtoms() {
@@ -37,19 +46,28 @@ struct AtomsSeeder {
         containerScene?.run(continuosSpawning, withKey: animationKey)
     }
     
-    func spawnAtom() {
+    private func spawnAtom() {
         guard let theScene = containerScene else { return }
         
         let newAtom = Atom(color: getRandomAtomColor())
         newAtom.position(in: theScene)
+        
+        //update our container
+        _spawnedAtoms.append(newAtom)
+        print("New atom spawned")
     }
     
     func stopSpawningAtoms() {
         guard let liveScene = containerScene else { return }
         liveScene.removeAction(forKey: animationKey)
+        
+        _spawnedAtoms.forEach{ $0.destroy() }
+        
+        //update our container
+        _spawnedAtoms.removeAll()
     }
     
-    mutating private func processLevelUpdate(_ newLevel: Int) {
+    private func processLevelUpdate(_ newLevel: Int) {
         //for now, just update seedTimeout as per original logic
         switch newLevel {
             case 1:
