@@ -10,7 +10,7 @@ import SpriteKit
 
 // GLOBAL PHYSIC CATEGORISATION
 public let coreCategory: UInt32 = 1 << 0
-public let rayCategory: UInt32  = 1 << 1
+public let rayCategory: UInt32 = 1 << 1
 
 enum ColorTheme {
     case white

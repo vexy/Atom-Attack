@@ -10,8 +10,8 @@ import AVFoundation
 
 class SoundPlayer {
     public static let shared: SoundPlayer = SoundPlayer()
-    
+
     private init() {
-        
+
     }
 }

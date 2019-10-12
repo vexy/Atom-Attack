@@ -31,7 +31,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         return label
     }()
-    
+
     // Game entities
     private var atomsSpawner: AtomsSeeder!
     private var mainCore: Core = Core()
@@ -71,7 +71,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         score = 0
         level = 0
-        
+
         mainCore.resetHalo()
         atomsSpawner.currentLevel = level
     }
@@ -79,56 +79,56 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     private func doGameOver() {
         gameOver = true
         gameStarted = false
-        
+
         SoundPlayer.play(soundEffect: .gameOver)
         labelLevel.text = "GAME OVER :("
-        
+
         mainCore.stopSpinning()
         mainCore.resetHalo()
         atomsSpawner.stopSpawningAtoms()
         flashBackground()
     }
-    
+
     private func startGame() {
         resetScene()
         gameStarted = true
         atomsSpawner.startSpawningAtoms()
         mainCore.startSpinning()
     }
-    
+
     private func flashBackground() {
         //animation sequence parameters:
         let oldColor = backgroundFlash.fillColor
 
         removeAction(forKey: "flash")
         let wait = SKAction.wait(forDuration: 0.05)
-        let fadeBackgroundIn        = SKAction.run { self.backgroundFlash.alpha = 1.0 }
-        let fadeBackgroundOut       = SKAction.run { self.backgroundFlash.alpha = 0.0 }
-        let turnBackgroundRed       = SKAction.run { self.backgroundFlash.fillColor = UIColor.red }
-        let turnBackgroundWhite     = SKAction.run { self.backgroundFlash.fillColor = UIColor.white }
-        let turnBackgroundOriginal  = SKAction.run { self.backgroundFlash.fillColor = oldColor }
+        let fadeBackgroundIn = SKAction.run { self.backgroundFlash.alpha = 1.0 }
+        let fadeBackgroundOut = SKAction.run { self.backgroundFlash.alpha = 0.0 }
+        let turnBackgroundRed = SKAction.run { self.backgroundFlash.fillColor = UIColor.red }
+        let turnBackgroundWhite = SKAction.run { self.backgroundFlash.fillColor = UIColor.white }
+        let turnBackgroundOriginal = SKAction.run { self.backgroundFlash.fillColor = oldColor }
         //construct Flashing animation from above
-        let flashSequence           = SKAction.sequence([
+        let flashSequence = SKAction.sequence([
             turnBackgroundRed,
             wait,
             turnBackgroundWhite,
             wait,
             turnBackgroundOriginal
         ])
-        let repeatFlash             = SKAction.repeat(flashSequence, count: 4)
-        let resetAction             = SKAction.run {
+        let repeatFlash = SKAction.repeat(flashSequence, count: 4)
+        let resetAction = SKAction.run {
             self.backgroundFlash.removeAllActions()
             self.backgroundFlash.removeFromParent()
         }
-        
+
         // fade-in, keep flashing, fade-out, cleanup
-        let finalAnimationSequence  = SKAction.sequence([
+        let finalAnimationSequence = SKAction.sequence([
             fadeBackgroundIn,
             repeatFlash,
             fadeBackgroundOut,
             resetAction
         ])
-        
+
         run(finalAnimationSequence, withKey: "flash")
     }
 
@@ -136,7 +136,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         labelScore.text = "\(score)"
         labelLevel.text = "LEVEL \(level)"
     }
-    
+
     private func increaseScore() {
         score += 1
         if score > 0 && score % 5 == 0 {
@@ -145,24 +145,23 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
             atomsSpawner.currentLevel = level
         }
     }
-    
+
     // MARK: - Lifecycle
 
     override func didMove(to view: SKView) {
         backgroundColor = SKColor(white: 185.0 / 255.0, alpha: 1.0)
-        
+
         //setup background
         addChild(gradientBackground)
         addChild(backgroundFlash)
 
         addChild(labelScore)
         addChild(labelLevel)
-        
-        
+
         //initialize Core and Seeder
         mainCore = Core()
         mainCore.place(in: self)
-        
+
         atomsSpawner = AtomsSeeder(scene: self)
 
         physicsWorld.gravity = .zero
@@ -176,23 +175,23 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
             startGame()
             print("Game started...")
         }
-        
+
         if !gameOver {
             mainCore.toggleColorScheme()
         }
     }
-    
+
     // MARK: - SKSceneDelegate methods
     override func update(_ currentTime: TimeInterval) {
         //exit immediately if game is still running and all spawned atoms are attacking
         guard !gameOver, gameStarted, !atomsSpawner.nonAttackingAtoms.isEmpty else { return }
-        
+
         let steadyAtoms = atomsSpawner.nonAttackingAtoms
-        steadyAtoms.forEach{
+        steadyAtoms.forEach {
             $0.attack(point: mainCore.currentPosition) // onwards to the eternal victory bois !!!
         }
     }
-    
+
     override func didSimulatePhysics() {
         guard !gameOver else { return }
         updateScoreDisplay()
@@ -211,11 +210,11 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
         }
-        
+
         //get bodies as SKShapeNodes
         guard let body1AsShape = firstBody.node as? SKShapeNode else { return }
         guard let body2AsShape = secondBody.node as? SKShapeNode else { return }
-        
+
         //compare their colors (generically -> "computeHitEffect(shape1, shape2)"
         if body1AsShape.fillColor == body2AsShape.fillColor {
             increaseScore()
@@ -224,7 +223,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             doGameOver()
         }
-        
+
         body2AsShape.removeFromParent()
     }
 }
