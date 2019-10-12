@@ -9,10 +9,13 @@
 import SpriteKit
 
 // GLOBAL PHYSIC CATEGORISATION
-public let coreCategory: UInt32 = 1 << 0
-public let rayCategory: UInt32 = 1 << 1
+struct PhysicsBitmask {
+    static let CoreBitmask: UInt32 = 1 << 0
+    static let RayBitmask: UInt32 = 1 << 1
+}
 
-enum ColorTheme {
+/// Enum describing base color scheme of an object
+internal enum ColorTheme {
     case white
     case black
 }

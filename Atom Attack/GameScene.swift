@@ -85,14 +85,14 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         mainCore.stopSpinning()
         mainCore.resetHalo()
-        atomsSpawner.stopSpawningAtoms()
+        atomsSpawner.stopSpawning()
         flashBackground()
     }
 
     private func startGame() {
         resetScene()
         gameStarted = true
-        atomsSpawner.startSpawningAtoms()
+        atomsSpawner.startSpawning()
         mainCore.startSpinning()
     }
 
@@ -177,7 +177,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         if !gameOver {
-            mainCore.toggleColorScheme()
+            mainCore.toggleCoreColor()
         }
     }
 
@@ -188,7 +188,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         let steadyAtoms = atomsSpawner.nonAttackingAtoms
         steadyAtoms.forEach {
-            $0.attack(point: mainCore.currentPosition) // onwards to the eternal victory bois !!!
+            $0.attack(point: mainCore.position) // onwards to the eternal victory bois !!!
         }
     }
 

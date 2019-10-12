@@ -8,25 +8,27 @@
 
 import SpriteKit
 
+/// Class used to encapsulate atoms seeding logic
 final class AtomsSeeder {
-    private weak var containerScene: SKScene?   //avoiding strong referencing
+    private weak var containerScene: SKScene?   //avoiding strong referencing and protecting from scene expiry
     private let animationKey = "spawningAtoms"
     private var seedTimeout: TimeInterval = TimeInterval(2)
 
-    /// Level scale for spawning logic
+    // current game level
     public var currentLevel: Int {
-        willSet { processLevelUpdate(newValue) }
+        willSet { updateSeedTimeout(newValue) }
     }
 
     private var _spawnedAtoms: [Atom] = []
     public var spawnedAtoms: [Atom] {
         get { _spawnedAtoms }   //Swift 5 nerd !
     }
-    //
+
+    /// Returns the array of `Atom`s currently in attacking motion
     public var attackingAtoms: [Atom] {
         get { _spawnedAtoms.filter { $0.isAttacking } }
     }
-    //
+    /// Returns the array of `Atom`s that are still (not moving/attacking)
     public var nonAttackingAtoms: [Atom] {
         get { _spawnedAtoms.filter { !$0.isAttacking } }
     }
@@ -35,40 +37,56 @@ final class AtomsSeeder {
         containerScene = scene
         currentLevel = 0
     }
+}
 
-    func startSpawningAtoms() {
-        stopSpawningAtoms()
+// MARK: - Public methods
+extension AtomsSeeder {
+    /// Starts creating Atoms on the screen
+    func startSpawning() {
+        // cleanup
+        stopSpawning()
 
-        let spawnAction = SKAction.run { self.spawnAtom() }
-        let waitAction = SKAction.wait(forDuration: seedTimeout)
-        let continuosSpawning = SKAction.repeatForever(SKAction.sequence([spawnAction, waitAction]))
-
+        let continuosSpawning = spawningSequence()
         containerScene?.run(continuosSpawning, withKey: animationKey)
     }
 
+    /// Stops creating Atoms on the screen. All previously spawned atoms will be removed from the sceen automatically.
+    func stopSpawning() {
+        guard let liveScene = containerScene else { return }
+        liveScene.removeAction(forKey: animationKey)
+
+        //update our container
+        _spawnedAtoms.forEach { $0.removeFromScene() }
+        _spawnedAtoms.removeAll()
+    }
+}
+
+// MARK: - Private methods (animations & utilities)
+extension AtomsSeeder {
+    private func spawningSequence() -> SKAction {
+        let spawnAction = SKAction.run { self.spawnAtom() }
+        let waitAction = SKAction.wait(forDuration: seedTimeout)
+        let finalSequence = SKAction.repeatForever(SKAction.sequence([spawnAction, waitAction]))
+
+        return finalSequence
+    }
+
+    /// Spawns and places new atom on the scene
     private func spawnAtom() {
         guard let theScene = containerScene else { return }
 
-        let newAtom = Atom(color: getRandomAtomColor())
+        let newAtom = Atom(color: getRandomColor())
         newAtom.position(in: theScene)
 
         //update our container
         _spawnedAtoms.append(newAtom)
     }
 
-    func stopSpawningAtoms() {
-        guard let liveScene = containerScene else { return }
-        liveScene.removeAction(forKey: animationKey)
-
-        //update our container
-        _spawnedAtoms.forEach { $0.destroy() }
-        _spawnedAtoms.removeAll()
-    }
-
-    private func processLevelUpdate(_ newLevel: Int) {
+    /// Updates `seedTimeout` variable according to the current level
+    private func updateSeedTimeout(_ newLevel: Int) {
         //for now, just update seedTimeout as per original logic
         switch newLevel {
-            case 0..<1:
+            case 0...1:
                 seedTimeout = 2.0
             case 2:
                 seedTimeout = 1.5
@@ -76,14 +94,13 @@ final class AtomsSeeder {
                 seedTimeout = 1.0
             case 4:
                 seedTimeout = 0.5
-            case 5...:
-                seedTimeout = 0.25
             default:
                 seedTimeout = 0.25
         }
     }
 
-    private func getRandomAtomColor() -> ColorTheme {
+    /// Returns random `ColorTheme`
+    private func getRandomColor() -> ColorTheme {
         let rnd = Int.random(in: 0..<2)
         return rnd == 0 ? ColorTheme.white : ColorTheme.black
     }

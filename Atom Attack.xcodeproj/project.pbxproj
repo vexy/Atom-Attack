@@ -110,10 +110,10 @@
 		C51C2CCA234A6FDD00103BF9 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */,
 				C51C2CCB234A702000103BF9 /* Core.swift */,
 				C51C2CCF234B9F1F00103BF9 /* Atom.swift */,
 				C5B368E02350C9A7002EA445 /* AtomsSeeder.swift */,
+				8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -358,7 +358,7 @@
 				DEVELOPMENT_TEAM = 8AE6XHH28M;
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "XC: *";
@@ -375,7 +375,7 @@
 				DEVELOPMENT_TEAM = 8AE6XHH28M;
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "XC: *";
