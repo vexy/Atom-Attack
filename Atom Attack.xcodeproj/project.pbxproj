@@ -16,10 +16,12 @@
 		862F0C6B1C0A298F001E6DA7 /* Click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5C1C0A298F001E6DA7 /* Click.mp3 */; };
 		862F0C6C1C0A298F001E6DA7 /* Contact.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5D1C0A298F001E6DA7 /* Contact.mp3 */; };
 		862F0C6D1C0A298F001E6DA7 /* Explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */; };
-		8638877E1FF7A62D0069FB8E /* SKTAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638877D1FF7A62D0069FB8E /* SKTAudio.swift */; };
-		863887861FF7C7890069FB8E /* CGFloat+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887831FF7C7890069FB8E /* CGFloat+Extensions.swift */; };
-		863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887841FF7C7890069FB8E /* Int+Extensions.swift */; };
+		8638877E1FF7A62D0069FB8E /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */; };
 		863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */; };
+		C51C2CCC234A702000103BF9 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCB234A702000103BF9 /* Core.swift */; };
+		C51C2CCE234B81D100103BF9 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCD234B81D100103BF9 /* Commons.swift */; };
+		C51C2CD0234B9F1F00103BF9 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCF234B9F1F00103BF9 /* Atom.swift */; };
+		C5B368E12350C9A7002EA445 /* AtomsSeeder.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B368E02350C9A7002EA445 /* AtomsSeeder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,10 +36,12 @@
 		862F0C5C1C0A298F001E6DA7 /* Click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Click.mp3; sourceTree = "<group>"; };
 		862F0C5D1C0A298F001E6DA7 /* Contact.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Contact.mp3; sourceTree = "<group>"; };
 		862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Explosion.mp3; sourceTree = "<group>"; };
-		8638877D1FF7A62D0069FB8E /* SKTAudio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKTAudio.swift; sourceTree = "<group>"; };
-		863887831FF7C7890069FB8E /* CGFloat+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGFloat+Extensions.swift"; sourceTree = "<group>"; };
-		863887841FF7C7890069FB8E /* Int+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoundPlayer.swift; path = ../SoundPlayer.swift; sourceTree = "<group>"; };
 		863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKTexture+Gradient.swift"; sourceTree = "<group>"; };
+		C51C2CCB234A702000103BF9 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
+		C51C2CCD234B81D100103BF9 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
+		C51C2CCF234B9F1F00103BF9 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
+		C5B368E02350C9A7002EA445 /* AtomsSeeder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AtomsSeeder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,13 +76,14 @@
 			children = (
 				862F0C381C0A28F2001E6DA7 /* AppDelegate.swift */,
 				862F0C431C0A28F2001E6DA7 /* Assets.xcassets */,
+				C51C2CCD234B81D100103BF9 /* Commons.swift */,
+				C51C2CCA234A6FDD00103BF9 /* Entities */,
 				863887821FF7C7890069FB8E /* Extensions */,
 				862F0C3C1C0A28F2001E6DA7 /* GameScene.swift */,
 				862F0C3E1C0A28F2001E6DA7 /* GameViewController.swift */,
 				862F0C481C0A28F2001E6DA7 /* Info.plist */,
 				862F0C451C0A28F2001E6DA7 /* LaunchScreen.storyboard */,
 				862F0C401C0A28F2001E6DA7 /* Main.storyboard */,
-				8638877D1FF7A62D0069FB8E /* SKTAudio.swift */,
 				862F0C5B1C0A298F001E6DA7 /* Sounds */,
 			);
 			path = "Atom Attack";
@@ -97,11 +102,20 @@
 		863887821FF7C7890069FB8E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				863887831FF7C7890069FB8E /* CGFloat+Extensions.swift */,
-				863887841FF7C7890069FB8E /* Int+Extensions.swift */,
 				863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C51C2CCA234A6FDD00103BF9 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				C51C2CCB234A702000103BF9 /* Core.swift */,
+				C51C2CCF234B9F1F00103BF9 /* Atom.swift */,
+				C5B368E02350C9A7002EA445 /* AtomsSeeder.swift */,
+				8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,18 +146,19 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 0920;
+				LastUpgradeCheck = 1100;
 				ORGANIZATIONNAME = "Vladislav Jevremovic";
 				TargetAttributes = {
 					862F0C341C0A28F2001E6DA7 = {
 						CreatedOnToolsVersion = 7.1.1;
+						DevelopmentTeam = 8AE6XHH28M;
 						LastSwiftMigration = 0920;
 					};
 				};
 			};
 			buildConfigurationList = 862F0C301C0A28F2001E6DA7 /* Build configuration list for PBXProject "Atom Attack" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -188,7 +203,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -198,11 +213,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				862F0C3D1C0A28F2001E6DA7 /* GameScene.swift in Sources */,
-				863887861FF7C7890069FB8E /* CGFloat+Extensions.swift in Sources */,
+				C51C2CD0234B9F1F00103BF9 /* Atom.swift in Sources */,
 				862F0C3F1C0A28F2001E6DA7 /* GameViewController.swift in Sources */,
-				863887871FF7C7890069FB8E /* Int+Extensions.swift in Sources */,
+				C51C2CCE234B81D100103BF9 /* Commons.swift in Sources */,
+				C5B368E12350C9A7002EA445 /* AtomsSeeder.swift in Sources */,
 				863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */,
-				8638877E1FF7A62D0069FB8E /* SKTAudio.swift in Sources */,
+				8638877E1FF7A62D0069FB8E /* SoundPlayer.swift in Sources */,
+				C51C2CCC234A702000103BF9 /* Core.swift in Sources */,
 				862F0C391C0A28F2001E6DA7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -233,6 +250,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -241,12 +259,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -285,6 +305,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -293,12 +314,14 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -332,12 +355,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
+				DEVELOPMENT_TEAM = 8AE6XHH28M;
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "XC: *";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -346,12 +372,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
+				DEVELOPMENT_TEAM = 8AE6XHH28M;
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "XC: *";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
