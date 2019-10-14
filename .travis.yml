@@ -3,3 +3,6 @@ osx_image: xcode11.2
 
 xcode_project: Atom Attack.xcodeproj
 xcode_scheme: Atom Attack
+
+script:
+- xcodebuild clean build -project Atom Attack.xcodeproj -scheme Atom Attack
