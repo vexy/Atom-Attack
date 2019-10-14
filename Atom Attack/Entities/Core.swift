@@ -106,7 +106,7 @@ extension Core {
 
     /// Performs hit animation on Core
     mutating func receiveHit() {
-        haloScale += 1
+        haloScale += 0.7
         animateHaloScaling()
     }
 

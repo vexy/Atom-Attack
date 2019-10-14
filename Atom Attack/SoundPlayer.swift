@@ -13,20 +13,27 @@ public enum SoundEffects: String {
 }
 
 struct SoundPlayer {
+    private static var mainPlayer: AVAudioPlayer!
+    
     static func play(soundEffect: SoundEffects) {
         guard let resourceURL = Bundle.main.url(forResource: soundEffect.rawValue, withExtension: nil) else {
             fatalError("Unable to open sound file")
         }
 
         //initialize the player and play the sound
-        guard let audioPlayer = try? AVAudioPlayer(contentsOf: resourceURL) else { return } //do not fatalError in order not to interrupt the game if it's only the player who's failing
-
-        audioPlayer.numberOfLoops = 1
-        audioPlayer.volume = 1
+        guard let soundPlayer = try? AVAudioPlayer(contentsOf: resourceURL) else {
+            print("Unable to create sound player")
+            return
+        } //do not fatalError in order not to interrupt the game if it's only the player who's failing
+        
+        soundPlayer.numberOfLoops = 0
+        soundPlayer.volume = 1
+        
+        soundPlayer.prepareToPlay()
+        mainPlayer = soundPlayer    //copy initialized player to static reference (to increase retain count explicitly)
 
         DispatchQueue.main.async {
-            audioPlayer.prepareToPlay()
-            audioPlayer.play()
+            self.mainPlayer.play()
         }
     }
 }

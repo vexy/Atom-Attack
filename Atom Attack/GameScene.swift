@@ -12,7 +12,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     private lazy var labelScore: SKLabelNode = {
         let label = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
         label.fontSize = 48
-        label.position = CGPoint(x: self.frame.width * 0.55, y: frame.height * 0.9)
+        label.position = CGPoint(x: 0.135 * frame.width, y: frame.height * 0.89)
         label.zPosition = 1
         label.alpha = 0.8
         label.horizontalAlignmentMode = .right
@@ -22,10 +22,25 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
     private lazy var labelLevel: SKLabelNode = {
         let label = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
         label.fontSize = 24
-        label.position = CGPoint(x: frame.width * 0.581, y: frame.height * 0.925)
+        label.position = CGPoint(x: frame.width * 0.8, y: frame.height * 0.9)
         label.zPosition = 1
         label.alpha = 0.8
         label.horizontalAlignmentMode = .left
+
+        return label
+    }()
+    
+    private lazy var infoLabel: SKLabelNode = {
+        let label = SKLabelNode(fontNamed: "AvenirNextCondensed-Bold")
+        label.fontSize = 16
+        label.position = CGPoint(x: frame.midX, y: frame.midY)
+        label.zPosition = 1
+        label.alpha = 0.7
+        label.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.center
+        label.text = "tap anywhere to start"
+        if #available(iOS 11.0, *) {
+            label.numberOfLines = 0
+        }
 
         return label
     }()
@@ -79,7 +94,8 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         gameStarted = false
 
         SoundPlayer.play(soundEffect: .gameOver)
-        labelLevel.text = "GAME OVER :("
+        infoLabel.isHidden = false
+        infoLabel.text = "GAME OVER 😣\ntap anywhere to restart the game"
 
         mainCore.stopSpinning()
         mainCore.resetHalo()
@@ -92,6 +108,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
         gameStarted = true
         atomsSpawner.startSpawning()
         mainCore.startSpinning()
+        infoLabel.isHidden = true
     }
 
     private func flashBackground() {
@@ -155,6 +172,7 @@ internal class GameScene: SKScene, SKPhysicsContactDelegate {
 
         addChild(labelScore)
         addChild(labelLevel)
+        addChild(infoLabel)
 
         //initialize Core and Seeder
         mainCore = Core()
