@@ -13,7 +13,6 @@
 		862F0C421C0A28F2001E6DA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C401C0A28F2001E6DA7 /* Main.storyboard */; };
 		862F0C441C0A28F2001E6DA7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C431C0A28F2001E6DA7 /* Assets.xcassets */; };
 		862F0C471C0A28F2001E6DA7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C451C0A28F2001E6DA7 /* LaunchScreen.storyboard */; };
-		862F0C6B1C0A298F001E6DA7 /* Click.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5C1C0A298F001E6DA7 /* Click.mp3 */; };
 		862F0C6C1C0A298F001E6DA7 /* Contact.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5D1C0A298F001E6DA7 /* Contact.mp3 */; };
 		862F0C6D1C0A298F001E6DA7 /* Explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */; };
 		8638877E1FF7A62D0069FB8E /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */; };
@@ -33,11 +32,11 @@
 		862F0C431C0A28F2001E6DA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		862F0C461C0A28F2001E6DA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		862F0C481C0A28F2001E6DA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		862F0C5C1C0A298F001E6DA7 /* Click.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Click.mp3; sourceTree = "<group>"; };
 		862F0C5D1C0A298F001E6DA7 /* Contact.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Contact.mp3; sourceTree = "<group>"; };
 		862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Explosion.mp3; sourceTree = "<group>"; };
 		8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoundPlayer.swift; path = ../SoundPlayer.swift; sourceTree = "<group>"; };
 		863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKTexture+Gradient.swift"; sourceTree = "<group>"; };
+		C50F58EB2354B5F4002A693A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		C51C2CCB234A702000103BF9 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		C51C2CCD234B81D100103BF9 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		C51C2CCF234B9F1F00103BF9 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
@@ -74,6 +73,7 @@
 		862F0C371C0A28F2001E6DA7 /* Atom Attack */ = {
 			isa = PBXGroup;
 			children = (
+				C50F58EA2354B5D3002A693A /* Other files */,
 				862F0C381C0A28F2001E6DA7 /* AppDelegate.swift */,
 				862F0C431C0A28F2001E6DA7 /* Assets.xcassets */,
 				C51C2CCD234B81D100103BF9 /* Commons.swift */,
@@ -92,7 +92,6 @@
 		862F0C5B1C0A298F001E6DA7 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				862F0C5C1C0A298F001E6DA7 /* Click.mp3 */,
 				862F0C5D1C0A298F001E6DA7 /* Contact.mp3 */,
 				862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */,
 			);
@@ -105,6 +104,14 @@
 				863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C50F58EA2354B5D3002A693A /* Other files */ = {
+			isa = PBXGroup;
+			children = (
+				C50F58EB2354B5F4002A693A /* README.md */,
+			);
+			path = "Other files";
 			sourceTree = "<group>";
 		};
 		C51C2CCA234A6FDD00103BF9 /* Entities */ = {
@@ -182,7 +189,6 @@
 				862F0C471C0A28F2001E6DA7 /* LaunchScreen.storyboard in Resources */,
 				862F0C441C0A28F2001E6DA7 /* Assets.xcassets in Resources */,
 				862F0C6C1C0A298F001E6DA7 /* Contact.mp3 in Resources */,
-				862F0C6B1C0A298F001E6DA7 /* Click.mp3 in Resources */,
 				862F0C6D1C0A298F001E6DA7 /* Explosion.mp3 in Resources */,
 				862F0C421C0A28F2001E6DA7 /* Main.storyboard in Resources */,
 			);
@@ -358,7 +364,7 @@
 				DEVELOPMENT_TEAM = 8AE6XHH28M;
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "XC: *";
@@ -375,7 +381,7 @@
 				DEVELOPMENT_TEAM = 8AE6XHH28M;
 				INFOPLIST_FILE = "Atom Attack/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.vladislavjevremovic.Atom-Attack";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "XC: *";

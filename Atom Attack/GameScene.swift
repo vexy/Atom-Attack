@@ -6,8 +6,6 @@
 //  Copyright © 2015 Vladislav Jevremovic. All rights reserved.
 //
 
-import AudioToolbox
-import QuartzCore
 import SpriteKit
 
 internal class GameScene: SKScene, SKPhysicsContactDelegate {
