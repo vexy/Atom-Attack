@@ -1,5 +1,0 @@
-language: swift
-osx_image: xcode11.2
-
-xcode_project: Atom Attack.xcodeproj
-xcode_scheme: Atom Attack
