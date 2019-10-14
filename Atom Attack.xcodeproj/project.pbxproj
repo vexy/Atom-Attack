@@ -17,6 +17,7 @@
 		862F0C6D1C0A298F001E6DA7 /* Explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 862F0C5E1C0A298F001E6DA7 /* Explosion.mp3 */; };
 		8638877E1FF7A62D0069FB8E /* SoundPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */; };
 		863887881FF7C7890069FB8E /* SKTexture+Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */; };
+		C50F58EE2354B8BA002A693A /* travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = C50F58ED2354B8BA002A693A /* travis.yml */; };
 		C51C2CCC234A702000103BF9 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCB234A702000103BF9 /* Core.swift */; };
 		C51C2CCE234B81D100103BF9 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCD234B81D100103BF9 /* Commons.swift */; };
 		C51C2CD0234B9F1F00103BF9 /* Atom.swift in Sources */ = {isa = PBXBuildFile; fileRef = C51C2CCF234B9F1F00103BF9 /* Atom.swift */; };
@@ -37,6 +38,7 @@
 		8638877D1FF7A62D0069FB8E /* SoundPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SoundPlayer.swift; path = ../SoundPlayer.swift; sourceTree = "<group>"; };
 		863887851FF7C7890069FB8E /* SKTexture+Gradient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKTexture+Gradient.swift"; sourceTree = "<group>"; };
 		C50F58EB2354B5F4002A693A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		C50F58ED2354B8BA002A693A /* travis.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = travis.yml; sourceTree = "<group>"; };
 		C51C2CCB234A702000103BF9 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		C51C2CCD234B81D100103BF9 /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		C51C2CCF234B9F1F00103BF9 /* Atom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Atom.swift; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				C50F58EB2354B5F4002A693A /* README.md */,
+				C50F58ED2354B8BA002A693A /* travis.yml */,
 			);
 			path = "Other files";
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 				862F0C471C0A28F2001E6DA7 /* LaunchScreen.storyboard in Resources */,
 				862F0C441C0A28F2001E6DA7 /* Assets.xcassets in Resources */,
 				862F0C6C1C0A298F001E6DA7 /* Contact.mp3 in Resources */,
+				C50F58EE2354B8BA002A693A /* travis.yml in Resources */,
 				862F0C6D1C0A298F001E6DA7 /* Explosion.mp3 in Resources */,
 				862F0C421C0A28F2001E6DA7 /* Main.storyboard in Resources */,
 			);

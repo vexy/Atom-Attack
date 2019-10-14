@@ -1,0 +1,5 @@
+language: swift
+osx_image: xcode11.2
+
+xcode_project: Atom Attack.xcodeproj # path to your xcodeproj folder
+xcode_scheme: Atom Attack
