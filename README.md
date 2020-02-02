@@ -1,3 +1,5 @@
+![Swift](https://github.com/vexy/Atom-Attack/workflows/Swift/badge.svg)
+
 # Atom Attack
 A little game I made in Swift - prevent the inverted color from smashing your atom! :)
 
